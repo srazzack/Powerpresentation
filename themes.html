@@ -1,0 +1,75 @@
+<html>
+<head> 
+
+<style type="text/css">
+
+#themes {
+	float: center; 
+}
+#white {
+	text-align: center; height: 200px; width: 200px; border: 2px solid black; float: left; 
+}
+#black{
+	 text-align: center; color: white; height: 200px; width: 200px; border: 2px solid gray; float: left; background-color: gray;
+}
+#red{
+	text-align: center; color: #810707; height: 200px; width: 200px; border: 2px solid red; float: left;
+}
+
+</style>
+
+
+ <script>
+$(function() {
+
+	$( "#white" ).selectable();
+	$("#black").selectable();
+	$("#red").selectable();
+
+});
+
+var app = {
+	themes: [
+		{
+			name:'white',
+			css: {
+					background_color: "white",
+					font_color: "black",
+
+				} 
+		},	
+		{
+			name:'black',
+			css: {
+					background_color: "black",
+					font_color: "white"
+			}
+			
+		},
+		{
+			name:'red',
+			css: {
+					background_color: "red",
+					font_color: "white" 
+			}
+		}
+	
+	]
+};
+
+
+</script>
+</head>
+
+	<body>
+	
+	<div id="themes"> 			
+
+	<figure id="white">White theme</figure> 
+	<figure id="black">Black theme</figure> 
+	<figure id="red">Red theme</figure>
+
+	</div>
+
+	</body>
+</html>

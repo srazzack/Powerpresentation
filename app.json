@@ -1,0 +1,28 @@
+{
+	"themes": [
+		{
+			"name":"white",
+			"css": {
+					"background_color": "white",
+					"font_color": "black",
+					
+				} 
+		},	
+		{
+			"name":"black",
+			"css": {
+					"background_color": "black",
+					"font_color": "white"
+			}
+			
+		},
+		{
+			"name":"red",
+			"css": {
+					"background_color": "red",
+					"font_color": "white" 
+			}
+		}
+	
+	]
+};
