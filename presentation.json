@@ -1,0 +1,34 @@
+
+{
+	"title": "",
+	"Author":"",
+	"Date_Created":"",
+	"Last_Modified":"",
+	"Style": {
+		"Theme":"",
+		"Slide_Size":{},
+		"Layout": {}
+	}
+	"Transition setting":"",
+	"Slides":
+		[
+		{
+			"Slide Number":"",
+			"Slide Title":"",
+			"header":"",
+			"Layout":"",
+			"Link":"",
+			"Paragraph":"",
+			"Graph":"",
+			"Chart":"
+			}]
+}
+
+
+{
+	themes: [{coffee: {css:},
+		{lavender:{css:},
+		{roses: {css:}}
+		},
+	]
+}

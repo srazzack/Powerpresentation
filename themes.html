@@ -3,41 +3,32 @@
 
 <style type="text/css">
 
-/*#themes {
-	float: center; 
+.default{
+text-align: center; height: 200px; width: 200px; float: left; margin: 26px;
 }
-#white {
-	text-align: center; height: 200px; width: 200px; border: 2px solid black; float: left; 
+
+.whitetheme{
+	border: 2px solid black; 
 }
-#black{
-	 text-align: center; color: white; height: 200px; width: 200px; border: 2px solid gray; float: left; background-color: gray;
+.blacktheme{
+	 border: 2px solid gray; background-color: gray;
 }
-#red{
-	text-align: center; color: #810707; height: 200px; width: 200px; border: 2px solid red; float: left;
-}*/
+.redtheme{
+	border: 2px solid red;
+}
+
 
 </style>
 
 <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 		
-		<script id="themeTemplate1" type="text/x-jquery-tmpl">
-			<figure style="${themes[0].css}">
-			<div>${themes[0].name}</div>
-			</figure>
-		</script>
+		<script id="themeTemplate" type="text/x-jquery-tmpl">
 
-		<script id="themeTemplate2" type="text/x-jquery-tmpl">
-			<figure style="${themes[1].css}">
-			<div>${themes[1].name}</div>
-			</figure>
-		</script>
+		<div class="default ${css}">${name}</div>
 
-		<script id="themeTemplate3" type="text/x-jquery-tmpl">
-			<figure style="${themes[2].css}">
-			<div>${themes[2].name}</div>
-			</figure>
-		</script>		
+
+		</script>
 
  <script>
 
@@ -45,22 +36,22 @@ $(document).ready(function() {
 var app = {
     themes: [{
         name: 'white',
-        css: "text-align: center; height: 200px; width: 200px; border: 2px solid black; float: left;"
+        css: "whitetheme"
     }, {
         name: 'black',
-        css: "{text-align: center; color: white; height: 200px; width: 200px; border: 2px solid gray; float: left; background-color: gray;}"
+        css: "blacktheme"
 
     }, {
         name: 'red',
-        css: "{text-align: center; color: #810707; height: 200px; width: 200px; border: 2px solid red; float: left;}"
+        css: "redtheme"
     }
 
     ]
 };
 
-$("#white").html($("#themeTemplate1").tmpl(app));
-$("#black").html($("#themeTemplate2").tmpl(app));
-$("#red").html($("#themeTemplate3").tmpl(app));
+$("#white").html($("#themeTemplate").tmpl(app.themes));
+
+
 
 });	
 
@@ -71,8 +62,6 @@ $("#red").html($("#themeTemplate3").tmpl(app));
 				
 
 	<div id="white"></div> 
-	<div id="black"></div> 
-	<div id="red"></div>
 
 
 	</body>
