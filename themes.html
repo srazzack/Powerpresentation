@@ -17,10 +17,10 @@ text-align: center; height:  200px; width: 200px; float: left; margin: 26px;
 .redtheme{
 	border: 2px solid red;
 }
-#testArea{
+#presentation{
 	clear: both; float: right; height: relative; width: relative; border: 2px red; background-color: #F8F8F8; border: 1px solid blue;
 }
-#testForm{
+#form{
 	float: left;
 }
 
@@ -63,7 +63,7 @@ var app = {
 };
 
 $("#themeOption").html($("#themeTemplate").tmpl(app.themes));
-var selected = "";
+var selected = ""; 
 
 $('.whitetheme').on('click', function(){
 	$(this).effect("highlight", {}, 2000);
@@ -73,7 +73,6 @@ $('.whitetheme').on('click', function(){
 	$('.redtheme').fadeOut(1500);
 console.log(selected);
 })
-console.log(selected);
 
 $('.blacktheme').on('click', function(){
 	$(this).effect("highlight", {}, 2000);
@@ -81,6 +80,7 @@ $('.blacktheme').on('click', function(){
 
 	$('.whitetheme').fadeOut(1500);
 	$('.redtheme').fadeOut(1500);
+console.log(selected);
 })
 
 
@@ -90,16 +90,14 @@ $('.redtheme').on('click', function(){
 
 	$('.blacktheme').fadeOut(1500);
 	$('.whitetheme').fadeOut(1500);
+console.log(selected);
 })
 
-if(selected == "whitetheme" || selected == "blacktheme" || selected == "redtheme"){
-	console.log("its working baby!");
-}
 });	
 
 	function test()
 	{
-		var formData = form2js('testForm', '.', true,
+		var formData = form2js('form', '.', true,
 				function(node)
 				{
 					if (node.id && node.id.match(/callbackTest/))
@@ -107,7 +105,7 @@ if(selected == "whitetheme" || selected == "blacktheme" || selected == "redtheme
 						return { name: node.id, value: node.innerHTML };
 					}
 				});
-		document.getElementById('testArea').innerHTML = JSON.stringify(formData, null, '\t');
+		document.getElementById('presentation').innerHTML = JSON.stringify(formData, null, '\t');
 	}
 </script>
 </head>
@@ -116,9 +114,9 @@ if(selected == "whitetheme" || selected == "blacktheme" || selected == "redtheme
 				
 	<div id="themeOption"></div> 
 
-	<pre><code id="testArea"></code></pre>
+	<pre><code id="presentation"></code></pre>
 
-<form id="testForm" action="javascript:test()">
+<form id="form" action="javascript:test()">
 	<dl>
 		<dt><label for="presTitle">Title of the Presentation:</label></dt>
 		<dd><input id="presTitle" type="text" name="presentation.title"/></dd>
