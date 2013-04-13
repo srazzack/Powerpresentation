@@ -5,7 +5,11 @@
 
 <style type="text/css">
 
-.default{
+.slideDefault{
+	width:350px; height:300px; padding:5px; border:5px solid gray; margin:0px; float: center;
+}
+
+.theme{
 text-align: center; height:  200px; width: 200px; float: left; margin: 26px;
 }
 .whitetheme{
@@ -30,23 +34,25 @@ text-align: center; height:  200px; width: 200px; float: left; margin: 26px;
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="form2js.js"></script>
 <script type="text/javascript" src="json2.js"></script>
+<script type="text/javascript" src="serializeObject.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		
-		<script id="themeTemplate" type="text/x-jquery-tmpl">
 
-		<div class="default ${css}">${name}</div>
+<script id="slide" type="text/x-jquery-tmpl">
+	<div class="slideDefault ${selectedTheme}"></div>
+</script>
+
+<script id="themeTemplate" type="text/x-jquery-tmpl">
+	<div class="theme ${css}" name='${name}' data-theme-name='${name}'>${name}</div>
+</script>
 
 
-		</script>
-
- <script>
-
-$(document).ready(function() {
+<script>
 
 var app = {
 	slidePreviews: "",
-	
+	slideDuration: 7000,
     themes: [{
         name: 'white',
         css: "whitetheme",
@@ -59,80 +65,62 @@ var app = {
         name: 'red',
         css: "redtheme",
         slideControls: ""
-    }]
+    }],
+    slides: []
 };
 
-$("#themeOption").html($("#themeTemplate").tmpl(app.themes));
-var selected = ""; 
+$(document).ready(function() {
 
-$('.whitetheme').on('click', function(){
-	$(this).effect("highlight", {}, 2000);
-	selected = "whitetheme";
+	$("#themeOption").html($("#themeTemplate").tmpl(app.themes));
 
-	$('.blacktheme').fadeOut(1500);
-	$('.redtheme').fadeOut(1500);
-console.log(selected);
-})
+	$('.theme').on('click', function(){
+		//console.log(arguments);
+		var themeName = $(this).data('theme-name');
+		app.selectedTheme = themeName;
+		console.log('themeName', themeName);
+		$("#ppt").html($("#slide").tmpl(app));
+	});
 
-$('.blacktheme').on('click', function(){
-	$(this).effect("highlight", {}, 2000);
-	selected = "blacktheme";
+	$("#slideForm").on('submit', function(event){
+		console.log(arguments);
+		var slide = form2js('slideForm');
+		app.slides.push(slide);
+		console.log(app.slides);
 
-	$('.whitetheme').fadeOut(1500);
-	$('.redtheme').fadeOut(1500);
-console.log(selected);
-})
+		// update the view to show the latest JSON object
+		$("#presentation").html(JSON.stringify(slide));
+		return false;
+	});
 
-
-$('.redtheme').on('click', function(){
-	$(this).effect("highlight", {}, 2000);
-	selected = "redtheme";
-
-	$('.blacktheme').fadeOut(1500);
-	$('.whitetheme').fadeOut(1500);
-console.log(selected);
-})
-
+	
 });	
-
-	function test()
-	{
-		var formData = form2js('form', '.', true,
-				function(node)
-				{
-					if (node.id && node.id.match(/callbackTest/))
-					{
-						return { name: node.id, value: node.innerHTML };
-					}
-				});
-		document.getElementById('presentation').innerHTML = JSON.stringify(formData, null, '\t');
-	}
 </script>
+
 </head>
 
 	<body>
 				
 	<div id="themeOption"></div> 
+	<div id="ppt"></div>
+	<div id="presentation"></div>
 
-	<pre><code id="presentation"></code></pre>
-
-<form id="form" action="javascript:test()">
+<form id="slideForm">
 	<dl>
 		<dt><label for="presTitle">Title of the Presentation:</label></dt>
-		<dd><input id="presTitle" type="text" name="presentation.title"/></dd>
+		<dd><input id="presTitle" type="text" name="slide.presentation"/></dd>
 	</dl>
 	<dl>
 		<dt><label for="slideTitle">Slide Title:</label></dt>
-		<dd><input id="slideTitle" type="text" name="presentation.slide.title"/></dd>
+		<dd><input id="slideTitle" type="text" name="slide.title"/></dd>
 	</dl>
 	<dl>
 		<dt><label for="slideHeader">Slide Header:</label></dt>
-		<dd><input id="slideHeader" type="text" name="presentation.slide.header"/></dd>
+		<dd><input id="slideHeader" type="text" name="slide.header"/></dd>
 	</dl>
 	<dl>
 		<dt>Content</dt>
 		<dd>
-			<textarea rows="5" cols="20" name="presentation.slide.content">Slide content here</textarea>
+			<textarea rows="5" cols="20" name="slide.content">Slide content here</textarea>
 		</dd>
 	</dl>
 	<dl>
@@ -140,6 +128,12 @@ console.log(selected);
 		<dd><input type="submit" value="Send" /></dd>
 	</dl>
 </form>
+
+<dl>
+	<dt><label for="selector">Form selector</label></dt>
+	<dd><input id="selector" name="selector" value="#slideForm"></dd>
+	<dd><p>Try '#testForm dl'</p></dd>
+</dl>
 
 	</body>
 </html>
