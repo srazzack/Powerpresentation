@@ -82,13 +82,14 @@ $(document).ready(function() {
 	});
 
 	$("#slideForm").on('submit', function(event){
-		console.log(arguments);
+		//console.log(arguments);
 		var slide = form2js('slideForm');
 		app.slides.push(slide);
-		console.log(app.slides);
-
+		//console.log(app.slides);
+		
 		// update the view to show the latest JSON object
-		$("#presentation").html(JSON.stringify(slide));
+		$("#presentation").html(JSON.stringify(app.slides));
+
 		return false;
 	});
 
@@ -128,12 +129,6 @@ $(document).ready(function() {
 		<dd><input type="submit" value="Send" /></dd>
 	</dl>
 </form>
-
-<dl>
-	<dt><label for="selector">Form selector</label></dt>
-	<dd><input id="selector" name="selector" value="#slideForm"></dd>
-	<dd><p>Try '#testForm dl'</p></dd>
-</dl>
 
 	</body>
 </html>
