@@ -78,14 +78,6 @@ $(document).ready(function() {
 
 	$("#themeOption").html($("#themeTemplate").tmpl(app.themes));
 
-	$('.theme').on('click', function(){
-		//console.log(arguments);
-		var themeName = $(this).data('theme-name');
-		app.selectedTheme = themeName;
-		console.log('themeName', themeName);
-		$("#ppt").html($("#slide").tmpl(app));
-	});
-
 	$("#slideForm").on('submit', function(event){
 		console.log(arguments);
 		var slide = form2js('slideForm');
@@ -93,10 +85,17 @@ $(document).ready(function() {
 		console.log(app.slides);
 
 		// update the view to show the latest JSON object
-		$("#ObjectRep").html(JSON.stringify(slide, null, '\t'));
+		$("#ObjectRep").html(JSON.stringify(app.slides, null, '\t'));
 		return false;
 	});
 
+	$('.theme').on('click', function(){
+		//console.log(arguments);
+		var themeName = $(this).data('theme-name');
+		app.selectedTheme = themeName;
+		console.log('themeName', themeName);
+		$("#ppt").html($("#slide").tmpl(app));
+	});
 
 });	
 </script>
