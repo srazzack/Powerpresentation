@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<title></title>
+
+<link href="../style/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="../style/main.css" rel="stylesheet" type="text/css"/>
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" src="../lib/jquery1.9.1.js"></script>
+<script type="text/javascript" src="../lib/jquery.tmpl.js"></script>
+<script type="text/javascript" src="../lib/form2js.js"></script>
+<script type="text/javascript" src="../lib/json2.js"></script>
+<script type="text/javascript" src="../lib/serializeObject.js"></script>
+<script type="text/javascript" src="../lib/jquery.toObject.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+		
+
+<script id="slide" type="text/x-jquery-tmpl">
+	
+	<div class="slideDefault ${selectedTheme}">
+
+	${slide.presentation}
+
+	${slide.title}
+
+	${slide.header}
+
+	${slide.content}
+
+	</div>
+
+</script>
+
+<script id="themeTemplate" type="text/x-jquery-tmpl">
+
+	{{each themes}}
+
+	<div class="theme ${css}" name='${name}' data-theme-name='${name}'>
+	
+	${name}
+
+	</div>
+
+	{{/each}}
+
+</script>
+
+<script type="text/javascript" src="../js/main.js"></script>
+
+</head>
+
+	<body>
+
+	<div class="container">
+	    <div>
+			<pre>
+				<code id="ObjectRep">The JSON represenation of the slide</code>
+			</pre>
+	    </div>
+
+	    <div>
+	      <div id="ppt"></div>
+	    </div>
+
+	    <div class="span6">
+	      <div id="themeOption"></div> 
+	    </div>
+
+	    <div class="span10">
+	      <input type="button" name="All themes">Themes<br>
+				<form class="form-horizontal" id="slideForm">
+					<dl>
+						<dt><label for="presTitle">Title of the Presentation:</label></dt>
+						<dd><input id="presTitle" type="text" name="slide.presentation"/></dd>
+					</dl>
+					<dl>
+						<dt><label for="slideTitle">Slide Title:</label></dt>
+						<dd><input id="slideTitle" type="text" name="slide.title"/></dd>
+					</dl>
+					<dl>
+						<dt><label for="slideHeader">Slide Header:</label></dt>
+						<dd><input id="slideHeader" type="text" name="slide.header"/></dd>
+					</dl>
+					<dl>
+						<dt>Content</dt>
+						<dd>
+							<textarea rows="5" cols="20" name="slide.content">Slide content here</textarea>
+						</dd>
+					</dl>
+
+					<dl>
+						<dt></dt>
+						<dd><input type="submit" value="Send" /></dd>
+					</dl>
+				</form>
+		</div>
+	    
+	  </div>
+	</div>
+
+	</body>
+</html>

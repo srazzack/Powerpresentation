@@ -1,0 +1,133 @@
+<!DOCTYPE>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>Power Presentation</title>
+
+        <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="master" charset="utf-8">
+        <link rel="stylesheet" href="../lib/bootstrap/css/user.css" type="text/css" media="screen" title="master" charset="utf-8">
+        <link href="../style/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link href="../style/main.css" rel="stylesheet" type="text/css"/>
+        
+
+        <script type="text/javascript" src="../lib/jquery1.9.1.js" ></script>
+
+        <script type="text/javascript" src="../lib/jquery.tmpl.js"></script>
+        <script type="text/javascript" src="../lib/form2js.js"></script>
+        <script type="text/javascript" src="../lib/json2.js"></script>
+        <script type="text/javascript" src="../lib/serializeObject.js"></script>
+        <script src="../lib/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+
+        <script id="slide" type="text/x-jquery-tmpl">
+            <div class="slideDefault ${selectedTheme}">
+
+            <h2>${presentation}</h2>
+            <div>${title}<div>>
+            <div>${header}</div>
+            <p>${content}</p>
+
+            </div>
+        </script>
+
+        <script id="themeTemplate" type="text/x-jquery-tmpl">
+            {{each themes}}
+            <div class="theme ${css}" name='${name}' data-theme-name='${name}'>
+            ${name}
+            </div>
+            {{/each}}
+        </script>
+
+        <script id="slidebarTemplate" type="text/x-jquery-tmpl">
+            {{each slides}}
+            <div class="slidebarprev ${selectedTheme}" name='${name}'></div>
+            {{/each}}
+        </script>
+
+    </head>
+    <body>
+
+ <body>
+        <div class="container-fluid">
+            <header class="row-fluid">
+                <h1 id="banner">My Awesome App</h1>
+            </header>
+                <nav id="primary-navigation" class="row">
+                    <div class="span12 tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">Home</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Features</a></li>
+                            <li><a href="#tab3" data-toggle="tab">About</a></li>
+                            <li><a href="#tab4" data-toggle="tab">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </nav>
+          <div class="row-fluid">
+            <div class="span2 scrollable">
+              <div id="slideNav"></div> 
+            </div>
+            <div class="span10">
+              <article class="span9">
+                    <h2>This is the main content well</h2>
+                    <p>This is a short paragraph to highlight where the general content will go.</p>
+        <ul class="thumbnails">
+            <li class="span3">
+                <figure>
+                    <div id="themeOption"></div> 
+                    <figcaption>
+                        <h5>Theme</h5>
+                        <p>Choose one of these themes by clicking</p>
+
+                        <input type="button" name="All themes">Themes<br>
+                    </figcaption>
+                </figure>
+            </li>
+            <li class="span3">
+                <div id="ppt"></div>
+            </li>
+        </ul>
+                </article>
+                <div class="span3">
+                    <form class="form-horizontal" id="slideForm">
+                        <dl>
+                            <dt><label for="presTitle">Title of the Presentation:</label></dt>
+                            <dd><input id="presTitle" type="text" name="presentation"/></dd>
+                        </dl>
+                        <dl>
+                            <dt><label for="slideTitle">Slide Title:</label></dt>
+                            <dd><input id="slideTitle" type="text" name="title"/></dd>
+                        </dl>
+                        <dl>
+                            <dt><label for="slideHeader">Slide Header:</label></dt>
+                            <dd><input id="slideHeader" type="text" name="header"/></dd>
+                        </dl>
+                        <dl>
+                            <dt>Content</dt>
+                            <dd>
+                                <textarea rows="5" cols="20" name="content">Slide content here</textarea>
+                            </dd>
+                        </dl>
+
+                        <dl>
+                            <dt></dt>
+                            <dd><button type="submit" value="Send" />Add Slide</dd>
+                                <input type="button" onclick="resetForm('slideForm');" />
+                        </dl>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+            <footer class="row">
+                <div class="span9 offset4">
+                    <h4>The JSON represenation of the slide</h4>
+                        <pre class="pre-scrollable">
+                            <code id="ObjectRep"></code>
+                        </pre>
+                </div>
+            </footer>
+        </div>
+
+    </body>
+</html>
