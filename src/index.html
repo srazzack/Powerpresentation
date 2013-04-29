@@ -77,8 +77,9 @@
                     <figcaption>
                         <h5>Theme</h5>
                         <p>Choose one of these themes by clicking</p>
-
-                        <input type="button" name="All themes">Themes<br>
+                        <div id=themeSelect>
+                        <input type="button" value="Themes" name="allThemes"/>
+                        </div>
                     </figcaption>
                 </figure>
             </li>
@@ -110,8 +111,8 @@
 
                         <dl>
                             <dt></dt>
-                            <dd><input type="submit" value="Send" />Add Slide</dd>
-                                <input type="button" onclick="resetForm('slideForm');" />
+                            <dd><input type="submit" value="Add Slide" /></dd>
+                                <input value="reset" type="button" onclick="resetForm('slideForm');" />
                         </dl>
                     </form>
                 </div>

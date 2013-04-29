@@ -47,9 +47,7 @@ $(document).ready(function() {
 	}
 	//Dynamic previews of theme templates upon a mouseover event
 	$('.theme').on('mouseover', function(){
-
 		//mouseover previews using jquery templates?
-		//
 	});
 	
 	//Theme and template selection: click with selection saved and mouseover event with toggle, post-click animation with client callback function
@@ -65,7 +63,7 @@ $(document).ready(function() {
 	});
 
 	//Fade out unselected previews
-	$(':button').on('click', function(){
+	$("#themeSelect :button").on('click', function(){
 		$('.theme').fadeIn(1000);
 	});
 });	
