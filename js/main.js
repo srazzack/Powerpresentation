@@ -33,9 +33,6 @@ $(document).ready(function() {
 		var slide = form2js('slideForm');
 		app.slides.push(slide);
 
-		var slideIndex = app.slides.index; 
-		app.slides.push(app.slides.slideIndex);
-
 		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 		// update the view to show the latest JSON object
 		$("#ObjectRep").html(JSON.stringify(app.slides, null, '\t'));
