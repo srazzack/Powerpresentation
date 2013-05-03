@@ -77,10 +77,13 @@ $(document).ready(function() {
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
 			$('.slidebarprev').on('click', function(){
+				//$("#selectable").selectable();
+
+
 				var slideNumber = $(this).data('slide-index');
 				app.selectedSlide = slideNumber;
 
-				$("#selectable").selectable();
+				
 
 				slideObj = {
 					title: app.slides[slideNumber].title,
@@ -90,6 +93,10 @@ $(document).ready(function() {
 				};
 
 				$("#ppt").html($("#slideTemplate").tmpl(slideObj));
+
+				$('input#slideTitle').val(app.slides[app.selectedSlide].title);
+				$('input#slideHeader').val(app.slides[app.selectedSlide].header);
+				$('textarea').val(app.slides[app.selectedSlide].content);
 
 			});
 
