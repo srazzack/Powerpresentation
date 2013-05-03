@@ -1,6 +1,10 @@
 
 /*Build Log:
-  Make theme-preview selection display styles (internally) with a timer*/
+  Make theme-preview selection display styles (internally) with a timer
+
+  1. form to json
+  2. make slides deletable
+  3. drag and drop slides*/
 
 var app = {
 	slidePreviews: "",
@@ -22,10 +26,6 @@ var app = {
     slides: []
 };
 
-var slideObj = {
-	selectedTheme: app.selectedTheme,
-	slides: app.slides
-};
 /* TO DOs: 
 
 */  
@@ -64,24 +64,37 @@ $(document).ready(function() {
 			var slide = form2js('slideForm');
 			app.slides.push(slide);
 
-			slide.selectedTheme = app.selectedTheme;
-
 			$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 			// update the view to show the latest JSON object
 			$("#ObjectRep").html(JSON.stringify(app.slides, null, '\t'));
 
-			$("#ppt").html($("#slideTemplate").tmpl(slide));
+			var slideObj = {
+				slide: slide,
+				selectedTheme: app.selectedTheme
+			};
 
-			$(".slidebarprev").on('click', function(){
+
+			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
+
+			$('.slidebarprev').on('click', function(){
 				var slideNumber = $(this).data('slide-index');
 				app.selectedSlide = slideNumber;
-				console.log(this.value);
-				console.log(slideNumber);
+
+				$("#selectable").selectable();
+
+				slideObj = {
+					title: app.slides[slideNumber].title,
+					header: app.slides[slideNumber].header,
+					content: app.slides[slideNumber].content,
+					selectedTheme: app.selectedTheme
+				};
+
+				$("#ppt").html($("#slideTemplate").tmpl(slideObj));
+
 			});
 
 			return false;
 		});
-
 	});
 
 
