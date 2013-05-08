@@ -62,19 +62,27 @@ $(document).ready(function() {
 
 		$("#ppt").html($("#slideTemplate").tmpl({}));
 
-		$("#slideNa2v").html($("#slidebarTemplate").tmpl(app));
-
-		$("#slideForm").on('update', function(){
-
-			var slide = json2form('slideForm');
-			app.slides[slideNumber].push(slide);
-		});
+		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 
 		$("#slideForm").on('submit', function(event){
 			//console.log(arguments);
 			var slide = form2js('slideForm');
 			app.slides.push(slide);
 
+			console.log("here");
+			console.log($(this));
+
+			console.log("here");
+
+			var slideView = {
+				title: slide.title,
+				header: slide.header,
+				content: slide.content
+				};
+				
+			console.log(slideView);
+			
+			$("#ppt").html($("#slideTemplate").tmpl(slideView));
 
 			$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 			// update the view to show the latest JSON object
@@ -88,37 +96,27 @@ $(document).ready(function() {
 
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
-			/*$('.slidebarprev').on('mouseover', function(){
-				var slidePrevNumber = $(this).data('slide-index');
-				app.selectedSlide = slidePrevNumber;
-
-				slideObj = {
-					title: app.slides[slideNumber].title,
-					header: app.slides[slideNumber].header,
-					content: app.slides[slideNumber].content,
-					selectedTheme: app.selectedTheme
-				};
-
-				$('.slidebarprev').html($("#slideTemplate").tmpl(slideObj));
-			});*/
+		
 
 		$('.slidebarprev').on('click', function(){
-
-			//$("#slideFormContainer").fadeOut(500);
-			//$("#selectable").selectable();
 
 			var slideNumber = $(this).data('slide-index');
 			app.selectedSlide = slideNumber;
 
-			slideObj = {
-				title: app.slides[slideNumber].title,
-				header: app.slides[slideNumber].header,
-				content: app.slides[slideNumber].content,
-				selectedTheme: app.selectedTheme
-			};
+			var slide = app.slides[slideNumber];
 
-			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
-				$("#slideForm").populate(slideObj);
+			var theme = app.selectedTheme;
+
+			slideObj = {
+				title: slide.title,
+				header: slide.header,
+				content: slide.content,
+				selectedTheme: theme
+				};
+
+				$("#ppt").html($("#slideTemplate").tmpl(slideObj));
+
+					$("#slideForm").populate(slideObj);
 			});
 
 			return false;
