@@ -14,6 +14,7 @@
 
         <script type="text/javascript" src="../lib/jquery.tmpl.js"></script>
         <script type="text/javascript" src="../lib/form2js.js"></script>
+        <script type="text/javascript" src="../lib/jquery.populate.js"></script>
         <script type="text/javascript" src="../lib/json2.js"></script>
         <script type="text/javascript" src="../lib/serializeObject.js"></script>
         <script src="../lib/bootstrap/js/bootstrap.js" type="text/javascript"></script>
@@ -40,6 +41,8 @@
                         <dl>
                             <dt></dt>
                             <dd><input type="submit" value="Add Slide" /></dd>
+                            <dt><label>Update Slide</label></dt>
+                            <dd><input type="update" value="Update"/></dd>
                                 <input value="reset slide" type="button" onclick="resetForm('slideForm');" />
                         </dl>
                     </form>
@@ -65,8 +68,13 @@
 
         <script id="slidebarTemplate" type="text/x-jquery-tmpl">
             {{each slides}}
-            <div id="selectable" class="slidebarprev ${selectedTheme} ui-widget-content" name='${name}' data-slide-index='${$index}'> ${$index + 1}
+            <div id="selectable" class="slidebarprev ${selectedTheme} ui-widget-content" name='${name}' data-slide-index='${$index}'> 
+            ${$index + 1}
 
+            ${slides.title}
+            ${slides.header}
+
+            ${slides.content}
             </div>
             {{/each}}
         </script>

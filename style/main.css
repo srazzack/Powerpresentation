@@ -6,7 +6,7 @@
 text-align: center; margin: 20px; height:  170px; width: 170px; float: center;
 }
 .slidebarprev{
-clear: both; margin: 20px; margin-left: auto; margin-right: auto; float: left; border: 2px solid black; height:  80px; width: 80px;
+font-size: 40%; dsaff; clear: both; margin: 20px; margin-left: auto; margin-right: auto; float: left; border: 2px solid black; height:  15%; width: 87%;
 }
 #slideSelect .ui-selecting { background: #FECA40; }
 #slideSelect .ui-selected { background: #F39814; color: white; }
