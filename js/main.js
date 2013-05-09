@@ -26,24 +26,35 @@ var app = {
 
 $(document).ready(function() {
 
-	var formResetHandler = function(){
-		$('#'+id).each(function(){
-			this.reset();
-		});
-	},
+	$("#themeOption").html($("#themeTemplate").tmpl(app));
 
-		themeOptionHandler = function(){
+	var themeOptionHandler = function(){
 
+			console.log(arguments);
 			var themeName = $(this).data('theme-name') + 'theme';
 			app.selectedTheme = themeName;
+			console.log($this);
 
 			$('.theme').fadeOut(1500);
 			$("#ppt").html($("#slideTemplate").tmpl({}));
 			$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
 			$("#slideNav").html($("#slidebarTemplate").tmpl(app));
-		},
+		};
 
-		slidePreviewHandler = function(){
+	$('.theme').on('click', themeOptionHandler());
+
+	$("#themeSelect :button").on('click', themeGhostHandler());
+	var themeGhostHandler = function(){
+			$('.theme').fadeIn(1000);
+		};
+	$("#formResetButton :button").on('click', formResetHandler());
+	var formResetHandler = function(){
+		$('#'+id).each(function(){
+			this.reset();
+		});
+	};
+	
+	var slidePreviewHandler = function(){
 
 			var slideNumber = $(this).data('slide-index');
 			app.selectedSlide = slideNumber;
@@ -60,9 +71,9 @@ $(document).ready(function() {
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
 			$("#slideForm").populate(slideObj);
-		},
+		};
 
-		slideFormHandler = function(){
+	var slideFormHandler = function(){
 
 			var slide = form2js('slideForm');
 			
@@ -82,24 +93,10 @@ $(document).ready(function() {
 			$("#ObjectRep").html(JSON.stringify(app.slides, null, '\t'));
 
 			return false;
-		},
+		};
 
-		themeGhostHandler = function(){
-			$('.theme').fadeIn(1000);
-		},
-
-		themePreviewHandler = function(){};
-
-
-	$("#themeOption").html($("#themeTemplate").tmpl(app));
-	//Dynamic previews of theme templates upon a mouseover event
-	$('.theme').on('mouseover', function(){/*mouseover previews using jquery templates?*/});
-	//Theme and template selection: click with selection saved and mouseover event with toggle, post-click animation with client callback function
-	$('.theme').on('click', themeOptionHandler());
-	$("#themeSelect :button").on('click', themeGhostHandler());
 	$("#slideForm").on('submit', slideFormHandler());
 	$('.slidebarprev').on('click', slidePreviewHandler());
-
 });
 
 
