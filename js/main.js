@@ -62,11 +62,10 @@ $(document).ready(function() {
 
 	var slidePreviewHandler = function(){
 
-			var slideNumber = $(this).data('slide-index');
-			app.selectedSlide = slideNumber;
-			var slide = app.slides[slideNumber],
-				theme = app.selectedTheme;
-
+		var slideNumber = $(this).data('slide-index');
+		app.selectedSlide = slideNumber;
+		var slide = app.slides[slideNumber],
+			theme = app.selectedTheme,
 			slideObj = {
 				title: slide.title,
 				header: slide.header,
@@ -77,23 +76,21 @@ $(document).ready(function() {
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
 			$("#slideForm").populate(slideObj);
-		};
+	};
 
 	var slideFormHandler = function(){
 
-			var slide = form2js('slideForm');
-			
-			app.slides.push(slide);
-
-			var slideView = {
-				title: slide.title,
-				header: slide.header,
-				content: slide.content
-			};
-
-			uiUpdater(slideView, slide);
-			//return false;
+		var slide = form2js('slideForm');
+		app.slides.push(slide);
+		
+		var slideView = {
+			title: slide.title,
+			header: slide.header,
+			content: slide.content
 		};
+
+		uiUpdater(slideView, slide);
+	};
 
 	var uiUpdater = function(slideView, slide){
 
@@ -116,8 +113,14 @@ $(document).ready(function() {
 		themeSelector(selection);
 		return false;
 	});
-	$("#slideForm").on('submit', slideFormHandler());
+
+	$("#slideForm").on('submit', function (){
+		slideFormHandler();
+		return false;
+	});
+
 	$('.slidebarprev').on('click', slidePreviewHandler());
+
 });
 
 
