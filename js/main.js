@@ -28,10 +28,9 @@ $(document).ready(function() {
 
 	$("#themeOption").html($("#themeTemplate").tmpl(app));
 
-
 	var themeOptionHandler = function(themeName){
 		app.selectedTheme = themeName;
-		//$('.theme').fadeOut(1500);
+		$('.theme').fadeOut(1500);
 		console.log('here with');
 		$("#ppt").html($("#slideTemplate").tmpl({}));
 		$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
@@ -52,9 +51,9 @@ $(document).ready(function() {
 			$('.theme').fadeIn(1000);
 		};	
 
-	/*$("#themeSelect :button").on('click', themeGhostHandler());
+	$("#themeSelect :button").on('click', themeGhostHandler());
 	
-	var formResetHandler = function(){
+	/*var formResetHandler = function(){
 			this.reset();
 		};
 	$("#formResetButton :button").on('click', formResetHandler());*/
@@ -109,9 +108,8 @@ $(document).ready(function() {
 	};
 
 	$('.theme').on('click', function(){
-		selection = $(this);
+		var selection = $(this);
 		themeSelector(selection);
-		return false;
 	});
 
 	$("#slideForm").on('submit', function (){
