@@ -38,20 +38,17 @@ $(document).ready(function() {
 	};
 
 	var themeSelector = function(selection){
-
+		console.log("now here, success!");
 		console.log(arguments);
 		var themeName = selection.data('theme-name') + 'theme';
 		console.log(themeName); 
 		themeOptionHandler(themeName);
 	};
-	
-	console.log(themeSelector);
 
 	var themeGhostHandler = function(){
+
 			$('.theme').fadeIn(1000);
 		};	
-
-	$("#themeSelect :button").on('click', themeGhostHandler());
 	
 	/*var formResetHandler = function(){
 			this.reset();
@@ -59,9 +56,9 @@ $(document).ready(function() {
 	$("#formResetButton :button").on('click', formResetHandler());*/
 	
 
-	var slidePreviewHandler = function(){
+	var slidePreviewHandler = function(selection){
 
-		var slideNumber = $(this).data('slide-index');
+		var slideNumber = selection.data('slide-index');
 		app.selectedSlide = slideNumber;
 		var slide = app.slides[slideNumber],
 			theme = app.selectedTheme,
@@ -112,12 +109,18 @@ $(document).ready(function() {
 		themeSelector(selection);
 	});
 
+	$("#themeSelect :button").on('click', themeGhostHandler());
+
 	$("#slideForm").on('submit', function (){
+		console.log(arguments);
 		slideFormHandler();
 		return false;
 	});
 
-	$('.slidebarprev').on('click', slidePreviewHandler());
+	$('.slidebarprev').on('click', function(){
+		var previewSelection = $(this);
+		slidePreviewHandler(previewSelection);
+	});
 
 });
 
