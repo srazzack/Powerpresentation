@@ -39,28 +39,22 @@ $(document).ready(function() {
 		$("#slideFormContainer").fadeIn(750);
 		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 		console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
-	};
+	},
 
-	var themeSelector = function(selection){
+		themeSelector = function(selection){
 		console.log("You are at the themeSelector with", selection);
 		console.log("now here, success!");
 		var themeName = selection.data('theme-name') + 'theme';
 		console.log(themeName); 
-		themeOptionHandler(themeName);
-	};
+		themeOptionHandler(themeName); 
+	},
 
-	var themeGhostHandler = function(){
+		themeGhostHandler = function(){
 		console.log("You are at the themeGhostHandler");
 			$('.theme').fadeIn(1000);
-		};	
-	
-	/*var formResetHandler = function(){
-			this.reset();
-		};
-	$("#formResetButton :button").on('click', formResetHandler);*/
-	
+	},	
 
-	var slidePreviewHandler = function(selection){
+		slidePreviewHandler = function(){
 		console.log("You are at the slidePreviewHandler");
 		var slideNumber = selection.data('slide-index');
 		app.selectedSlide = slideNumber;
@@ -76,9 +70,9 @@ $(document).ready(function() {
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
 			$("#slideForm").populate(slideObj);
-	};
+	},
 
-	var slideFormHandler = function(event){
+		slideFormHandler = function(event){
 		event.preventDefault();
 		console.log("You are at the slideFormHandler");
 		var slide = form2js('slideForm');
@@ -93,9 +87,9 @@ $(document).ready(function() {
 		};
 
 		uiUpdater(slideRender, slide);
-	};
+	},
 
-	var uiUpdater = function(slideView, slide){
+		uiUpdater = function(slideView, slide){
 			console.log("You are at the uiUpdater");
 			if(slideView){
 				//Display Slide Preview
@@ -121,6 +115,7 @@ $(document).ready(function() {
 	$("#slideForm").on('submit', slideFormHandler);
 
 	$('.slidebarprev').on('click', function(){
+		console.log($(this));
 		var previewSelection = $(this);
 		slidePreviewHandler(previewSelection);
 	});
