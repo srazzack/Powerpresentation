@@ -29,24 +29,26 @@ $(document).ready(function() {
 	$("#themeOption").html($("#themeTemplate").tmpl(app));
 
 	var themeOptionHandler = function(themeName){
+		console.log("You are at the themeOptionHandler");
 		app.selectedTheme = themeName;
 		$('.theme').fadeOut(1500);
-		console.log('here with');
+		console.log('here after the theme selections fade');
 		$("#ppt").html($("#slideTemplate").tmpl({}));
 		$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
 		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
+		console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
 	};
 
 	var themeSelector = function(selection){
+		console.log("You are at the themeSelector with", selection);
 		console.log("now here, success!");
-		console.log(arguments);
 		var themeName = selection.data('theme-name') + 'theme';
 		console.log(themeName); 
 		themeOptionHandler(themeName);
 	};
 
 	var themeGhostHandler = function(){
-
+		console.log("You are at the themeGhostHandler");
 			$('.theme').fadeIn(1000);
 		};	
 	
@@ -57,7 +59,7 @@ $(document).ready(function() {
 	
 
 	var slidePreviewHandler = function(selection){
-
+		console.log("You are at the slidePreviewHandler");
 		var slideNumber = selection.data('slide-index');
 		app.selectedSlide = slideNumber;
 		var slide = app.slides[slideNumber],
@@ -75,7 +77,8 @@ $(document).ready(function() {
 	};
 
 	var slideFormHandler = function(){
-
+		event.preventDefault();
+		console.log("You are at the slideFormHandler");
 		var slide = form2js('slideForm');
 		app.slides.push(slide);
 		
@@ -89,7 +92,7 @@ $(document).ready(function() {
 	};
 
 	var uiUpdater = function(slideView, slide){
-
+			console.log("You are at the uiUpdater");
 			if(slideView){
 				//Display Slide Preview
 				$("#ppt").html($("#slideTemplate").tmpl(slideView));
@@ -109,13 +112,9 @@ $(document).ready(function() {
 		themeSelector(selection);
 	});
 
-	$("#themeSelect :button").on('click', themeGhostHandler());
+	$("#themeSelect :button").on('click', themeGhostHandler);
 
-	$("#slideForm").on('submit', function (){
-		console.log(arguments);
-		slideFormHandler();
-		return false;
-	});
+	$("#slideForm").on('submit', slideFormHandler);
 
 	$('.slidebarprev').on('click', function(){
 		var previewSelection = $(this);
