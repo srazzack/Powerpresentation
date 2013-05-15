@@ -27,6 +27,8 @@ var app = {
 $(document).ready(function() {
 
 	$("#themeOption").html($("#themeTemplate").tmpl(app));
+	$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
+	$("#slideFormContainer").hide();
 
 	var themeOptionHandler = function(themeName){
 		console.log("You are at the themeOptionHandler");
@@ -34,7 +36,7 @@ $(document).ready(function() {
 		$('.theme').fadeOut(1500);
 		console.log('here after the theme selections fade');
 		$("#ppt").html($("#slideTemplate").tmpl({}));
-		$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
+		$("#slideFormContainer").fadeIn(750);
 		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
 		console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
 	};
@@ -55,7 +57,7 @@ $(document).ready(function() {
 	/*var formResetHandler = function(){
 			this.reset();
 		};
-	$("#formResetButton :button").on('click', formResetHandler());*/
+	$("#formResetButton :button").on('click', formResetHandler);*/
 	
 
 	var slidePreviewHandler = function(selection){
@@ -76,19 +78,21 @@ $(document).ready(function() {
 			$("#slideForm").populate(slideObj);
 	};
 
-	var slideFormHandler = function(){
+	var slideFormHandler = function(event){
 		event.preventDefault();
 		console.log("You are at the slideFormHandler");
 		var slide = form2js('slideForm');
 		app.slides.push(slide);
 		
-		var slideView = {
+		var slideRender = {
+
 			title: slide.title,
 			header: slide.header,
-			content: slide.content
+			content: slide.content,
+			selectedTheme: app.selectedTheme
 		};
 
-		uiUpdater(slideView, slide);
+		uiUpdater(slideRender, slide);
 	};
 
 	var uiUpdater = function(slideView, slide){
