@@ -27,45 +27,45 @@ var app = {
 $(document).ready(function() {
 
 	$("#themeOption").html($("#themeTemplate").tmpl(app));
+	$("#slideNav").html($("#slidebarTemplate").tmpl());
 	$("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
 	$("#slideFormContainer").hide();
 
 	var themeOptionHandler = function(themeName){
-		console.log("You are at the themeOptionHandler");
-		app.selectedTheme = themeName;
-		$('.theme').fadeOut(1500);
-		console.log('here after the theme selections fade');
-		$("#ppt").html($("#slideTemplate").tmpl({}));
-		$("#slideFormContainer").fadeIn(750);
-		$("#slideNav").html($("#slidebarTemplate").tmpl(app));
-		console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
+			console.log("You are at the themeOptionHandler");
+			app.selectedTheme = themeName;
+			$('.theme').fadeOut(1500);
+			console.log('here after the theme selections fade');
+			$("#ppt").html($("#slideTemplate").tmpl({}));
+			$("#slideFormContainer").fadeIn(750);
+			$("#slideNav").html($("#slidebarTemplate").tmpl(app));
+			console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
 	},
 
 		themeSelector = function(selection){
-		console.log("You are at the themeSelector with", selection);
-		console.log("now here, success!");
-		var themeName = selection.data('theme-name') + 'theme';
-		console.log(themeName); 
-		themeOptionHandler(themeName); 
+			console.log("You are at the themeSelector with", selection);
+			console.log("now here, success!");
+			var themeName = selection.data('theme-name') + 'theme';
+			console.log(themeName); 
+			themeOptionHandler(themeName); 
 	},
 
 		themeGhostHandler = function(){
 		console.log("You are at the themeGhostHandler");
 			$('.theme').fadeIn(1000);
 	},	
-
-		slidePreviewHandler = function(){
-		console.log("You are at the slidePreviewHandler");
-		var slideNumber = selection.data('slide-index');
-		app.selectedSlide = slideNumber;
-		var slide = app.slides[slideNumber],
-			theme = app.selectedTheme,
-			slideObj = {
-				title: slide.title,
-				header: slide.header,
-				content: slide.content,
-				selectedTheme: theme
-			};
+	
+		slidePreviewHandler = function(event){
+			var slideNumber = $(event.toElement).data('slide-index');
+			app.selectedSlide = slideNumber;
+			var slide = app.slides[slideNumber];
+			var theme = app.selectedTheme,
+				slideObj = {
+					title: slide.title,
+					header: slide.header,
+					content: slide.content,
+					selectedTheme: theme
+				};
 
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
@@ -73,20 +73,21 @@ $(document).ready(function() {
 	},
 
 		slideFormHandler = function(event){
-		event.preventDefault();
-		console.log("You are at the slideFormHandler");
-		var slide = form2js('slideForm');
-		app.slides.push(slide);
-		
-		var slideRender = {
+			event.preventDefault();
+			console.log("You are at the slideFormHandler");
+			var slide = form2js('slideForm');
+			app.slides.push(slide);
+			
+			var slideRender = {
 
-			title: slide.title,
-			header: slide.header,
-			content: slide.content,
-			selectedTheme: app.selectedTheme
-		};
-
-		uiUpdater(slideRender, slide);
+				title: slide.title,
+				header: slide.header,
+				content: slide.content,
+				selectedTheme: app.selectedTheme
+			};
+			
+			uiUpdater(slideRender, slide);
+			$("#target").toForm(slide, "testForm");
 	},
 
 		uiUpdater = function(slideView, slide){
@@ -114,11 +115,7 @@ $(document).ready(function() {
 
 	$("#slideForm").on('submit', slideFormHandler);
 
-	$('.slidebarprev').on('click', function(){
-		console.log($(this));
-		var previewSelection = $(this);
-		slidePreviewHandler(previewSelection);
-	});
+	$('#slideNav').on('click', slidePreviewHandler);
 
 });
 
