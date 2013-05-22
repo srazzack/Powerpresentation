@@ -69,7 +69,12 @@ $(document).ready(function() {
 
 			$("#ppt").html($("#slideTemplate").tmpl(slideObj));
 
-			$("#slideForm").populate(slideObj);
+			$("#slideForm").populate({
+					title: slide.title,
+					header: slide.header,
+					content: slide.content,
+					selectedTheme: theme
+				});
 	},
 
 		slideFormHandler = function(event){
@@ -87,7 +92,7 @@ $(document).ready(function() {
 			};
 			
 			uiUpdater(slideRender, slide);
-			$("#target").toForm(slide, "testForm");
+			$("#target").toForm({data: slide, formId: "testForm", formMethod: "post", formAction: "imaginarysubmit.php"});
 	},
 
 		uiUpdater = function(slideView, slide){
