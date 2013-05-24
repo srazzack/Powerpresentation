@@ -35,3 +35,4 @@ font-size: 40%; dsaff; clear: both; margin: 20px; margin-left: auto; margin-righ
 #selectable div.ui-selected{
 	background: lightblue;
 }
+p.mouseoverEvent { background: #fffbe1; }

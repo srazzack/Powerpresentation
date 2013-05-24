@@ -15,6 +15,7 @@
         <script type="text/javascript" src="../lib/jquery.tmpl.js"></script>
         <script type="text/javascript" src="../lib/form2js.js"></script>
         <script type="text/javascript" src="../lib/jquery.populate.js"></script>
+        <script type="text/javascript" src="../lib/jquery.textEdit.js"></script>
         <script type="text/javascript" src="../lib/jquery.toForm.js"></script>
         <script type="text/javascript" src="../lib/json2.js"></script>
         <script type="text/javascript" src="../lib/serializeObject.js"></script>
@@ -42,9 +43,10 @@
                         <dl>
                             <dt></dt>
                             <dd><input type="submit" value="Add Slide" /></dd>
-                            <dt><label>Update Slide</label></dt>
-                            <dd><input type="update" value="Update"/></dd>
-                                <input id="formResetButton" value="reset slide" type="button" onclick="formResetHandler('slideForm');" />
+                            <dt><label for="slideUpdate">Update Slide:</label></dt>
+                            <dd><input id="slideUpdate" type="submit" value="Update"/></dd>
+                            <dt><label>Reset Slide Fields</label></dt>
+                            <dd><input id="formResetButton" value="reset slide" type="button" /></dd>
                         </dl>
                     </form>
         </script>
@@ -104,7 +106,10 @@
             </div>
             <div class="span10">
               <article class="span9">
-                    <h2 class="editable">This is the main content well</h2>
+                    <h2>This is the main content well</h2>
+                    <form>
+                        <input type="hidden" name="hiddenField" />
+                    </form>
                     <p>This is a short paragraph to highlight where the general content will go.</p>
         <ul class="thumbnails">
             <li class="span3">
