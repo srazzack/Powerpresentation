@@ -102,25 +102,27 @@ $(document).ready(function () {
 
     updateSlideHandler = function (event){
         event.preventDefault();
+
+        console.log(app.selectedSlide);
         console.log("You are in the updateSlideHandler");
 
         var slides = app.slides,
             slideIndex = app.selectedSlide;
             currentSlide = app.slides[slideIndex];
             theme = app.selectedTheme,
-            slide = form2js('slideForm');
+            newSlide = form2js('slideForm');
 
-            slides.splice(slideIndex, 1);
-            currentSlide.push(slide);
+            slides.splice(slideIndex, 1, newSlide);
 
         var slideObj = {
-                title: currentSlide.title,
-                header: currentSlide.header,
-                content: currentSlide.content,
+                title: newSlide.title,
+                header: newSlide.header,
+                content: newSlide.content,
                 selectedTheme: theme
             };
-
+        console.log("here finally")
         $("#ppt").html($("#slideTemplate").tmpl(slideObj));
+        console.log("did it work");
     },
 
     uiUpdater = function (slideView, slide) {
@@ -150,6 +152,6 @@ $(document).ready(function () {
 
     $("#slideNav").on("click", slidePreviewHandler);
 
-    $("#slideUpdate").on("submit", updateSlideHandler);
+    $("#slideUpdate").on("click", updateSlideHandler);
 
 });
