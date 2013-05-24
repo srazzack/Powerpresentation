@@ -114,15 +114,14 @@ $(document).ready(function () {
 
             slides.splice(slideIndex, 1, newSlide);
 
-        var slideObj = {
+        var newSlideObj = {
                 title: newSlide.title,
                 header: newSlide.header,
                 content: newSlide.content,
                 selectedTheme: theme
             };
-        console.log("here finally")
-        $("#ppt").html($("#slideTemplate").tmpl(slideObj));
-        console.log("did it work");
+
+        uiUpdater(newSlideObj, newSlide);
     },
 
     uiUpdater = function (slideView, slide) {
