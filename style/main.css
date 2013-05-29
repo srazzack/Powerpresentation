@@ -21,7 +21,10 @@ font-size: 100%; clear: both; margin: 20px; margin-left: auto; margin-right: aut
 	border: 2px solid red;
 }
 #objectRep{
-	clear: both; float: right; height: relative; width: relative; border: 2px red; background-color: #F8F8F8; border: 1px solid blue;
+	clear: both; float: left; height: relative; width: relative; background-color: #F8F8F8;
+}
+#slideTitleRep{
+	clear: both; float: left; height: relative; width: relative; background-color: #F8F8F8;
 }
 #form{
 	float: left;
