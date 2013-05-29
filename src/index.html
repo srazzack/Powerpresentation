@@ -55,7 +55,7 @@
         </script>
 
         <script id="slideTemplate" type="text/x-jquery-tmpl">
-            <div class="editable slideDefault ${selectedTheme}" data-slide-index='${$index}'>
+            <div class="selectable slideDefault ${selectedTheme}" data-slide-index='${$index}'>
 
             <div>${title}<div>
             <div>${header}</div>
@@ -86,8 +86,6 @@
         </script>
 
     </head>
-    <body>
-
  <body>
         <div class="container-fluid">
             <header class="row-fluid">
@@ -109,11 +107,10 @@
             </div>
             <div class="span10">
               <article class="span9">
-                    <h2>This is the main content well</h2>
                     <form>
                         <input type="hidden" name="hiddenField" />
                     </form>
-                    <p>This is a short paragraph to highlight where the general content will go.</p>
+                    <p id="presentationTitle">Please enter the title of your presentation here</p>
         <ul class="thumbnails">
             <li class="span3">
                 <figure>

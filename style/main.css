@@ -1,12 +1,12 @@
 .slideDefault{
-	width:350px; height:300px; padding:5px; border:5px solid gray; margin:0px; float: center;
+	width:450px; height:400px; padding:1px; border:5px solid gray; margin:0px; float: center;
 }
 
 .theme{
 text-align: center; margin: 20px; height:  170px; width: 170px; float: center;
 }
 .slidebarprev{
-font-size: 40%; dsaff; clear: both; margin: 20px; margin-left: auto; margin-right: auto; float: left; border: 2px solid black; height:  15%; width: 87%;
+font-size: 100%; clear: both; margin: 20px; margin-left: auto; margin-right: auto; float: left; border: 2px solid black; height:  15%; width: 87%;
 }
 #slideSelect .ui-selecting { background: #FECA40; }
 #slideSelect .ui-selected { background: #F39814; color: white; }

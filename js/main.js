@@ -8,6 +8,7 @@ var app = {
     slidePreviews: "",
     slideDuration: 7000,
     selectedTheme: 'themeName',
+    presentationTitle: [],
     themes: [{
         name: 'white',
         css: "whitetheme",
@@ -31,9 +32,6 @@ $(document).ready(function () {
     $("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
     $("#slideFormContainer").hide();
 
-    $('p').textEdit({hiddenInputField: $('input[name="hiddenField"]'),
-            tempInputField: $('<input name="temp" type="text" />')});
-
     var themeOptionHandler = function (themeName) {
         console.log("You are at the themeOptionHandler");
         app.selectedTheme = themeName;
@@ -45,7 +43,28 @@ $(document).ready(function () {
         console.log("finish: Rendered jQuery Templates of slidebarTemplate and slideFormTemplate");
     },
 
-    themeSelector = function (selection) {
+        titleOfPresentation = function (){
+        var path = app.presentationTitle;
+        var textValue = $('input[name="hiddenField"]').val();
+        var key = "presentation title",
+                value = textValue,
+                titleObject = {};
+                titleObject[key] = value;
+                console.log(textValue);
+        console.log("Whe are here with the", titleObject);
+        path.splice(0,1, titleObject);
+        $("#ObjectRep").html(JSON.stringify(path, null, '\t'));
+
+    };
+
+    $("#presentationTitle").textEdit({
+        tempInputField: $('<input name="temp" type="text" />'),
+        textSize: "250%",
+        hiddenInputField: $('input[name="hiddenField"]'),
+        callback: titleOfPresentation
+    });
+
+var themeSelector = function (selection) {
         console.log("You are at the themeSelector with", selection);
         console.log("now here, success!");
         var themeName = selection.data('theme-name') + 'theme';
@@ -152,5 +171,7 @@ $(document).ready(function () {
     $("#slideNav").on("click", slidePreviewHandler);
 
     $("#slideUpdate").on("click", updateSlideHandler);
+
+    //$("#presentationTitle").on("change", titleOfPresentation);
 
 });
