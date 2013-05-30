@@ -21,6 +21,19 @@ var app = {
         name: 'red',
         css: "redtheme",
         slideControls: ""
+    }, {
+        name: 'blue',
+        css: "bluetheme",
+        slideControls: ""
+    }, {
+        name: 'orange',
+        css: "orangetheme",
+        slideControls: ""
+    },
+    {
+        name: 'green',
+        css: "greentheme",
+        slideControls: ""
     }],
     slides: []
 };
@@ -36,12 +49,13 @@ $(document).ready(function () {
         app.selectedTheme = themeName;
         $('.theme').fadeOut(1500);
         $("#ppt").html($("#slideTemplate").tmpl({}));
-        $("#slideFormContainer").fadeIn(750);
         $("#slideNav").html($("#slidebarTemplate").tmpl(app));
+        $("#ppt").on('click', function(){
+            $("#slideFormContainer").fadeIn(750);
+        });
+    };
 
-    },
-
-        titleOfPresentation = function (){
+    var titleOfPresentation = function (){
         var path = app.presentationTitle;
         var textValue = $('input[name="hiddenField"]').val();
         var key = "presentation title",
@@ -63,13 +77,13 @@ $(document).ready(function () {
     var themeSelector = function (selection) {
         var themeName = selection.data('theme-name') + 'theme';
         themeOptionHandler(themeName);
-    },
+    };
 
-        themeGhostHandler = function () {
+    var themeGhostHandler = function () {
             $('.theme').fadeIn(1000);
-        },
+    };
 
-        slidePreviewHandler = function (event) {
+    var slidePreviewHandler = function (event) {
             var slideNumber = $(event.toElement).data('slide-index');
             app.selectedSlide = slideNumber;
             var slide = app.slides[slideNumber];

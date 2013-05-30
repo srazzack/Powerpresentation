@@ -1,16 +1,13 @@
 .slideDefault{
-	width:450px; height:400px; padding:1px; border:5px solid gray; margin:0px; float: center;
+	width:425px; height:375px; padding:1px; border:2px solid gray; margin:0px; margin-left: auto;
+    margin-right: auto;
 }
-
 .theme{
-text-align: center; margin: 20px; height:  170px; width: 170px; float: center;
+text-align: center; margin: 20px; height:  120px; width: 120px; float: left;
 }
 .slidebarprev{
-font-size: 100%; clear: both; margin: 20px; margin-left: auto; margin-right: auto; float: left; border: 2px solid black; height:  15%; width: 87%;
+font-size: 100%; clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px; width: 100px;
 }
-#slideSelect .ui-selecting { background: #FECA40; }
-#slideSelect .ui-selected { background: #F39814; color: white; }
-
 .whitetheme{
 	border: 2px solid black; 
 }
@@ -19,6 +16,15 @@ font-size: 100%; clear: both; margin: 20px; margin-left: auto; margin-right: aut
 }
 .redtheme{
 	border: 2px solid red;
+}
+.bluetheme{
+	border: 2px solid blue; color: black;
+}
+.orangetheme{
+	border: 2px solid orange; 
+}
+.greentheme{
+	border: 2px solid green;
 }
 #objectRep{
 	clear: both; float: left; height: relative; width: relative; background-color: #F8F8F8;
@@ -29,13 +35,9 @@ font-size: 100%; clear: both; margin: 20px; margin-left: auto; margin-right: aut
 #form{
 	float: left;
 }
+#ppt{
+	float: center; margin-left: auto; margin-right: auto;
+}
 #selectable div{
 	height:  80px; width: 80px; padding: 10px; margin: 10px; border: 1px solid;
 }
-#selectable div.ui-selecting{
-	background: blue;
-}
-#selectable div.ui-selected{
-	background: lightblue;
-}
-p.mouseoverEvent { background: #fffbe1; }
