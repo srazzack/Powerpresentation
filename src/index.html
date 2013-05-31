@@ -66,7 +66,7 @@
 
         <script id="themeTemplate" type="text/x-jquery-tmpl">
             {{each themes}}
-            <div class="theme ${css} btn" name='${name}' data-theme-name='${name}'>
+            <div href="#" class="thumbnail theme ${css}" name='${name}' data-theme-name='${name}'>
             ${name}
             </div>
             {{/each}}
@@ -88,7 +88,7 @@
     </head>
  <body>
         <div class="container-fluid">
-                <div class="pre-scrollable">
+                <div class=" well pre-scrollable">
             
                     <div id="themeOption"></div> 
                         <div>
@@ -100,10 +100,10 @@
                         </div>
                 </div>
               <div class="row-fluid">
-                    <div class="span3 pre-scrollable">
+                    <div class="span3 pre-scrollable well">
                         <figure id="slideNav"></figure>
                     </div>
-                    <div class="span6">
+                    <div class="span6 well">
                           <article class="span9">
                             <form>
                                 <input type="hidden" name="hiddenField" />
@@ -112,12 +112,12 @@
                                 <div id="ppt"></div>
                           </article>
                     </div>
-                    <div class="span3" id="slideFormContainer">
+                    <div class="span3 well" id="slideFormContainer">
                     </div>
               </div>
         </div>
         
-            <footer>
+            <footer class="row">
                 <div class="container-fluid">
                     <h4>The JSON represenation of the slide</h4>
                         <pre class="pre-scrollable">

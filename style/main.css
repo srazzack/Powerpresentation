@@ -12,7 +12,7 @@ font-size: 100%; clear: both; margin: 20px; float: right; border: 2px solid blac
 	border: 2px solid black; 
 }
 .blacktheme{
-	 border: 2px solid gray; background-color: gray;
+	border: 2px solid gray; background-color: gray;
 }
 .redtheme{
 	border: 2px solid red;
@@ -26,18 +26,12 @@ font-size: 100%; clear: both; margin: 20px; float: right; border: 2px solid blac
 .greentheme{
 	border: 2px solid green;
 }
-#objectRep{
-	clear: both; float: left; height: relative; width: relative; background-color: #F8F8F8;
-}
 #slideTitleRep{
-	clear: both; float: left; height: relative; width: relative; background-color: #F8F8F8;
-}
-#form{
 	float: left;
 }
-#ppt{
-	float: center; margin-left: auto; margin-right: auto;
+#objectRep{
+	float: left; 
 }
-#selectable div{
-	height:  80px; width: 80px; padding: 10px; margin: 10px; border: 1px solid;
+#ppt{
+	margin-left: auto; margin-right: auto;
 }

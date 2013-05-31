@@ -47,11 +47,11 @@ $(document).ready(function () {
 
     var themeOptionHandler = function (themeName) {
         app.selectedTheme = themeName;
-        $('.theme').fadeOut(1500);
+        $('.theme').hide();
         $("#ppt").html($("#slideTemplate").tmpl({}));
         $("#slideNav").html($("#slidebarTemplate").tmpl(app));
         $("#ppt").on('click', function(){
-            $("#slideFormContainer").fadeIn(750);
+            $("#slideFormContainer").show();
         });
     };
 
@@ -144,6 +144,12 @@ $(document).ready(function () {
             uiUpdater(newSlideObj, newSlide);
         },
 
+        formResetHandler = function(){
+            $("#slideForm").each(function(){  
+                this.reset();
+            });
+        },
+
         uiUpdater = function (slideView, slide) {
             if (slideView) {
                 //Display Slide Preview
@@ -154,7 +160,8 @@ $(document).ready(function () {
 
             if (slide) {
                 // update the view to show the latest JSON object
-                $("#ObjectRep").html(JSON.stringify(app.slides, null, '\t'));
+                var slidePath = app.slides;
+                $("#ObjectRep").html(JSON.stringify(slidePath, null, '\t'));
             }
 
         };
@@ -171,4 +178,6 @@ $(document).ready(function () {
     $("#slideNav").on("click", slidePreviewHandler);
 
     $("#slideUpdate").on("click", updateSlideHandler);
+
+    $("#formResetButton :button").on("click", formResetHandler);
 });
