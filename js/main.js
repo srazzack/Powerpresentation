@@ -1,41 +1,40 @@
 /*Build Log:
   Make theme-preview selection display styles (internally) with a timer
-  1. make slides deletable
-  2. drag and drop slides*
-  3. Todo Edit update slide.*/
-
+  3. Clean up fill
+  4. */
 var app = {
     slidePreviews: "",
     slideDuration: 7000,
-    selectedTheme: 'themeName',
-    presentationTitle: [],
+    presentation: {
+        title: "",
+        theme: "themeName",
+        slides: []
+    },
     themes: [{
-        name: 'white',
+        name: "white",
         css: "whitetheme",
         slideControls: ""
     }, {
-        name: 'black',
+        name: "black",
         css: "blacktheme",
         slideControls: ""
     }, {
-        name: 'red',
+        name: "red",
         css: "redtheme",
         slideControls: ""
     }, {
-        name: 'blue',
+        name: "blue",
         css: "bluetheme",
         slideControls: ""
     }, {
-        name: 'orange',
+        name: "orange",
         css: "orangetheme",
         slideControls: ""
-    },
-    {
-        name: 'green',
+    }, {
+        name: "green",
         css: "greentheme",
         slideControls: ""
-    }],
-    slides: []
+    }]
 };
 
 $(document).ready(function () {
@@ -45,48 +44,55 @@ $(document).ready(function () {
     $("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
     $("#slideFormContainer").hide();
 
-    var themeOptionHandler = function (themeName) {
-        app.selectedTheme = themeName;
-        $('.theme').hide();
-        $("#ppt").html($("#slideTemplate").tmpl({}));
-        $("#slideNav").html($("#slidebarTemplate").tmpl(app));
-        $("#ppt").on('click', function(){
-            $("#slideFormContainer").show();
-        });
+    var showJson = function () {
+        $("#ObjectRep").html(JSON.stringify(app.presentation, null, "\t"));
     };
 
-    var titleOfPresentation = function (){
-        var path = app.presentationTitle;
-        var textValue = $('input[name="hiddenField"]').val();
-        var key = "presentation title",
-                value = textValue,
-                titleObject = {};
-                titleObject[key] = value;
-        path.splice(0,1, titleObject);
-        $("#slideTitleRep").html(JSON.stringify(path, null, '\t'));
-
+    var uiUpdater = function (slideView, slide) {
+        if (slideView) {
+            //Display Slide Preview
+            $("#ppt").html($("#slideTemplate").tmpl(slideView));
+            //Update and Render Slide Navigation Bar 
+            $("#slideNav").html($("#slidebarTemplate").tmpl(app.presentation));
+        }
+        if (slide) {
+            showJson();
+        }
     };
 
-    $("#presentationTitle").textEdit({
-        tempInputField: $('<input name="temp" type="text" />'),
-        textSize: "250%",
-        hiddenInputField: $('input[name="hiddenField"]'),
-        callback: titleOfPresentation
-    });
+    var handlers = {
 
-    var themeSelector = function (selection) {
-        var themeName = selection.data('theme-name') + 'theme';
-        themeOptionHandler(themeName);
-    };
+        themeOption: function (themeName) {
+            app.selectedTheme = themeName;
+            $(".theme").hide();
+            $("#ppt").html($("#slideTemplate").tmpl({}));
+            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
+            $("#ppt").on("click", function () {
+                $("#slideFormContainer").show();
+                $("#slideUpdate").hide();
+                $("#slideSubmit").show();
+            });
+        },
 
-    var themeGhostHandler = function () {
-            $('.theme').fadeIn(1000);
-    };
+        setTitle: function (title) {
+            app.presentation.title = title;
+            console.log(app.presentation.title);
+            showJson();
+        },
 
-    var slidePreviewHandler = function (event) {
-            var slideNumber = $(event.toElement).data('slide-index');
+        themeSelector: function (selection) {
+            var themeName = selection.data("theme-name") + "theme";
+            handlers.themeOption(themeName);
+        },
+
+        themeGhost: function () {
+            $(".theme").fadeIn(1000);
+        },
+
+        slidePreview: function (event) {
+            var slideNumber = $(event.toElement).data("slide-index");
             app.selectedSlide = slideNumber;
-            var slide = app.slides[slideNumber];
+            var slide = app.presentation.slides[slideNumber];
             var theme = app.selectedTheme,
                 slideObj = {
                     title: slide.title,
@@ -97,6 +103,8 @@ $(document).ready(function () {
 
             $("#ppt").html($("#slideTemplate").tmpl(slideObj));
             $("#slideFormContainer").show();
+            $("#slideSubmit").hide();
+            $("#slideUpdate").show();
 
             $("#slideForm").populate({
                 title: slide.title,
@@ -107,10 +115,10 @@ $(document).ready(function () {
             return slideNumber;
         },
 
-        slideFormHandler = function (event) {
+        slideForm: function (event) {
             event.preventDefault();
-            var slide = form2js('slideForm');
-            app.slides.push(slide);
+            var slide = form2js("slideForm");
+            app.presentation.slides.push(slide);
             $("#slideFormContainer").hide();
 
             var slideRender = {
@@ -124,60 +132,44 @@ $(document).ready(function () {
             uiUpdater(slideRender, slide);
         },
 
-        updateSlideHandler = function (event){
+        updateSlide: function (event) {
             event.preventDefault();
-            var slides = app.slides,
+            var slides = app.presentation.slides,
                 slideIndex = app.selectedSlide;
-                currentSlide = app.slides[slideIndex];
-                theme = app.selectedTheme,
-                newSlide = form2js('slideForm');
+            currentSlide = app.presentation.slides[slideIndex];
+            theme = app.selectedTheme,
+            newSlide = form2js("slideForm");
 
-                slides.splice(slideIndex, 1, newSlide);
+            slides.splice(slideIndex, 1, newSlide);
 
             var newSlideObj = {
-                    title: newSlide.title,
-                    header: newSlide.header,
-                    content: newSlide.content,
-                    selectedTheme: theme
-                };
+                title: newSlide.title,
+                header: newSlide.header,
+                content: newSlide.content,
+                selectedTheme: theme
+            };
 
             uiUpdater(newSlideObj, newSlide);
-        },
+        }
+    };
 
-        formResetHandler = function(){
-            $("#slideForm").each(function(){  
-                this.reset();
-            });
-        },
+    $("#presentationTitle").inline({
+        textSize: "250%",
+        callback: handlers.setTitle
 
-        uiUpdater = function (slideView, slide) {
-            if (slideView) {
-                //Display Slide Preview
-                $("#ppt").html($("#slideTemplate").tmpl(slideView));
-                //Update and Render Slide Navigation Bar 
-                $("#slideNav").html($("#slidebarTemplate").tmpl(app));
-            }
-
-            if (slide) {
-                // update the view to show the latest JSON object
-                var slidePath = app.slides;
-                $("#ObjectRep").html(JSON.stringify(slidePath, null, '\t'));
-            }
-
-        };
-
-    $('.theme').on('click', function () {
-        var selection = $(this);
-        themeSelector(selection);
     });
 
-    $("#themeSelect :button").on("click", themeGhostHandler);
 
-    $("#slideForm").on("submit", slideFormHandler);
+    $(".theme").on("click", function () {
+        var selection = $(this);
+        handlers.themeSelector(selection);
+    });
 
-    $("#slideNav").on("click", slidePreviewHandler);
+    $("#themeSelect :button").on("click", handlers.themeGhost);
 
-    $("#slideUpdate").on("click", updateSlideHandler);
+    $("#slideForm").on("submit", handlers.slideForm);
 
-    $("#formResetButton :button").on("click", formResetHandler);
+    $("#slideNav").on("click", handlers.slidePreview);
+
+    $("#slideUpdate").on("click", handlers.updateSlide);
 });

@@ -15,7 +15,7 @@
         <script type="text/javascript" src="../lib/jquery.tmpl.js"></script>
         <script type="text/javascript" src="../lib/form2js.js"></script>
         <script type="text/javascript" src="../lib/jquery.populate.js"></script>
-        <script type="text/javascript" src="../lib/jquery.textEdit.js"></script>
+        <script type="text/javascript" src="../lib/jquery.inline.js"></script>
         <script type="text/javascript" src="../lib/jquery.toForm.js"></script>
         <script type="text/javascript" src="../lib/json2.js"></script>
         <script type="text/javascript" src="../lib/serializeObject.js"></script>
@@ -42,13 +42,9 @@
 
                         <dl>
                             <dt></dt>
-                            <dd><input type="submit" class="btn" value="Add Slide" /></dd>
-                            
-                            <dt><label>Reset Slide Fields</label></dt>
-                            <dd><input id="formResetButton" class="btn" value="reset slide" type="button" /></dd>
+                            <dd><input id="slideSubmit" type="submit" class="btn" value="Add Slide" /></dd>
                         </dl>
                         <dl>
-                            <dt><label for="slideUpdate">Update Slide:</label></dt>
                             <dd><input id="slideUpdate" class="btn" type="submit" value="Update"/></dd>
                         </dl>
                     </form>
@@ -66,7 +62,7 @@
 
         <script id="themeTemplate" type="text/x-jquery-tmpl">
             {{each themes}}
-            <div href="#" class="thumbnail theme ${css}" name='${name}' data-theme-name='${name}'>
+            <div href="#" class="thumbnail img-polaroid theme ${css}" name='${name}' data-theme-name='${name}'>
             ${name}
             </div>
             {{/each}}
@@ -108,7 +104,7 @@
                             <form>
                                 <input type="hidden" name="hiddenField" />
                             </form>
-                            <p id="presentationTitle">Please enter the title of your presentation here</p>
+                            <p id="presentationTitle" class="inline">Please enter the title of your presentation here</p>
                                 <div id="ppt"></div>
                           </article>
                     </div>
@@ -121,8 +117,6 @@
                 <div class="container-fluid">
                     <h4>The JSON represenation of the slide</h4>
                         <pre class="pre-scrollable">
-                            <code id="slideTitleRep"></code>
-                            <hr></hr>
                             <code id="ObjectRep"></code>
                         </pre>
                 </div>
