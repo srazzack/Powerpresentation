@@ -31,7 +31,7 @@ img#plus{ display: block; margin-left: auto; margin-right: auto; }
 	border: 2px solid green;
 }	
 #objectRep{
-	float: left; 
+	float: left; text-align:left;
 }
 #ppt{
 	margin-left: auto; margin-right: auto;
