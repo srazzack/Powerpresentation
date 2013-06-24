@@ -204,7 +204,11 @@ $(document).ready(function () {
                 handlers.savePresentationData();
             }
 
+            $("#ppt").html($("#slideTemplate").tmpl({}));
+            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
+
         },
+
         clearAppData: function (event) {
             localStorage.clear();
             return false;
@@ -240,6 +244,8 @@ $(document).ready(function () {
 
     $("#save").on("click", handlers.savePresentationData);
 
-    $(window).load(handlers.loadData());
+    $("#clearStorage").on("click", handlers.clearAppData);
+
+    $(window).load(handlers.loadData);
 
 });
