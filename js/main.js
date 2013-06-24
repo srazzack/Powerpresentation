@@ -1,5 +1,5 @@
     /*Build Log:
-      1. Fix up the on 'blur' for inline plugin
+      1. Adding HTML5 localstorage 
     */
 var app = {
     slidePreviews: "",
@@ -35,6 +35,8 @@ var app = {
         slideControls: ""
     }]
 };
+
+
 
 $(document).ready(function () {
 
@@ -170,13 +172,50 @@ $(document).ready(function () {
             $("#slideNav").html("");
             $("#slideNav").html($("#slidebarTemplate").tmpl(app));
             showJson();
+        },
+
+        savePresentationData: function () {
+            // Place the app object into storage
+            localStorage.setItem("app", JSON.stringify(app));
+        },
+
+        getPresentationData: function () {
+            // Retrieves the object app from HTML 5 local storage
+            var retrievedObject = localStorage.getItem("app");
+            var savedData = JSON.parse(retrievedObject);
+            return savedData;
+        },
+
+        loadData: function () {
+            //get data from localStorage
+            var saved = handlers.getPresentationData();
+            //check if its null / undefined
+            if ([null, undefined].indexOf(saved) === -1) {
+                //its not null/undefined - data exists!
+                console.log("Data exists. Here's the data : ", saved);
+                
+                //setting app data to the one stored inlocalStorage
+                app = saved;
+            }
+            else {
+                //data DOES NOT exist in localStorage
+                console.log("Data does not exist, save to localStorage");
+                //So, save it in localStorage. Refresh this page now.
+                handlers.savePresentationData();
+            }
+
+        },
+        clearAppData: function (event) {
+            localStorage.clear();
+            return false;
         }
+
     };
 
     $("#presentationTitle").inline({
         textSize: "250%",
+        defaultText: "",
         callback: handlers.setTitle
-
     });
 
 
@@ -198,5 +237,9 @@ $(document).ready(function () {
     $("#slideAddButton").on("click", handlers.addSlide);
 
     $("#slideDeleteButton").on("click", handlers.deleteSlide);
+
+    $("#save").on("click", handlers.savePresentationData);
+
+    $(window).load(handlers.loadData());
 
 });
