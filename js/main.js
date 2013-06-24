@@ -204,9 +204,11 @@ $(document).ready(function () {
                 handlers.savePresentationData();
             }
 
-            $("#ppt").html($("#slideTemplate").tmpl({}));
-            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
+            uiUpdater({},{});
 
+            if(app.presentation.title !== ""){
+                $("#presentationTitle").text(app.presentation.title);
+            }
         },
 
         clearAppData: function (event) {
