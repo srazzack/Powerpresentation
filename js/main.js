@@ -1,5 +1,5 @@
     /*Build Log:
-      1. Adding HTML5 localstorage 
+      1. after initial save, anytime a change happens to the slide, AUTOSAVE
     */
 var app = {
     slidePreviews: "",
@@ -40,8 +40,28 @@ var app = {
 
 $(document).ready(function () {
 
+var initialSave = false;
+
+var set = function (key,value){
+    app[key] = value;
+
+    if(initialSave){
+        localStorage.setItem("app", JSON.stringify(app));
+        console.log("save event occurs");
+    }
+    
+} 
+
+var autoSave = function () {
+
+}
+var get = function (key){
+    return app[key];
+}
+
     $("#themeOption").html($("#themeTemplate").tmpl(app));
     //$("#slideNav").html($("#slidebarTemplate").tmpl());
+
     $("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
     $("#slideFormContainer").hide();
     $("#slideAddButton").html($("#addSlideTemplate").tmpl());
@@ -51,14 +71,55 @@ $(document).ready(function () {
     };
 
     var uiUpdater = function (slideView, slide) {
+
+        showJson(); 
+
         if (slideView) {
             //Display Slide Preview
             $("#ppt").html($("#slideTemplate").tmpl(slideView));
             //Update and Render Slide Navigation Bar 
             $("#slideNav").html($("#slidebarTemplate").tmpl(app));
         }
-        if (slide) {
-            showJson();
+
+        if (initialSave) {
+            localStorage.setItem("app", JSON.stringify(app));
+            console.log("save event occurs");
+        }
+    };
+
+    var storage = {
+
+        savePresentationData: function () {
+            // Place the app object into storage
+            localStorage.setItem("app", JSON.stringify(app));
+            console.log("save event occurs");
+            initialSave = true;
+           // $(document).on("change", storage.savePresentationData);
+            /*try {
+            
+                // Set the interval and autosave every second
+                setInterval(function() {
+                    localStorage.setItem("app", JSON.stringify(app));
+                }, 1000);
+
+            } catch (e) {
+            
+                // If any errors, catch and alert the user
+                if (e == QUOTA_EXCEEDED_ERR) {
+                    alert('Quota exceeded!');
+                }
+            }*/
+        },
+
+        getPresentationData: function () {
+            // Retrieves the object app from HTML 5 local storage
+            var retrievedObject = localStorage.getItem("app");
+            var savedData = JSON.parse(retrievedObject);
+            return savedData;
+        },
+        clearAppData: function (event) {
+            localStorage.clear();
+            return false;
         }
     };
 
@@ -75,7 +136,7 @@ $(document).ready(function () {
         },
 
         themeOption: function (themeName) {
-            app.selectedTheme = themeName;
+            set("selectedTheme", themeName);
             $(".theme").hide();
             $("#ppt").html($("#slideTemplate").tmpl({}));
             $("#slideNav").html($("#slidebarTemplate").tmpl(app));
@@ -94,7 +155,7 @@ $(document).ready(function () {
 
         slidePreview: function (event) {
             var slideNumber = $(event.currentTarget).data("slide-index");
-            app.selectedSlide = slideNumber;
+            set("selectedSlide", slideNumber);
             var slide = app.presentation.slides[slideNumber];
             var theme = app.selectedTheme,
                 slideObj = {
@@ -171,24 +232,12 @@ $(document).ready(function () {
             app.presentation.slides.splice(app.selectedSlide, 1);
             $("#slideNav").html("");
             $("#slideNav").html($("#slidebarTemplate").tmpl(app));
-            showJson();
-        },
-
-        savePresentationData: function () {
-            // Place the app object into storage
-            localStorage.setItem("app", JSON.stringify(app));
-        },
-
-        getPresentationData: function () {
-            // Retrieves the object app from HTML 5 local storage
-            var retrievedObject = localStorage.getItem("app");
-            var savedData = JSON.parse(retrievedObject);
-            return savedData;
+            uiUpdater();
         },
 
         loadData: function () {
             //get data from localStorage
-            var saved = handlers.getPresentationData();
+            var saved = storage.getPresentationData();
             //check if its null / undefined
             if ([null, undefined].indexOf(saved) === -1) {
                 //its not null/undefined - data exists!
@@ -201,19 +250,15 @@ $(document).ready(function () {
                 //data DOES NOT exist in localStorage
                 console.log("Data does not exist, save to localStorage");
                 //So, save it in localStorage. Refresh this page now.
-                handlers.savePresentationData();
+                //storage.savePresentationData();
             }
 
-            uiUpdater({},{});
+            var currentSlide = app.presentation.slides[app.selectedSlide];
+            uiUpdater(currentSlide,{});
 
             if(app.presentation.title !== ""){
                 $("#presentationTitle").text(app.presentation.title);
             }
-        },
-
-        clearAppData: function (event) {
-            localStorage.clear();
-            return false;
         }
 
     };
@@ -244,9 +289,9 @@ $(document).ready(function () {
 
     $("#slideDeleteButton").on("click", handlers.deleteSlide);
 
-    $("#save").on("click", handlers.savePresentationData);
+    $("#save").on("click", storage.savePresentationData);
 
-    $("#clearStorage").on("click", handlers.clearAppData);
+    $("#clearStorage").on("click", storage.clearAppData);
 
     $(window).load(handlers.loadData);
 
