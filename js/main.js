@@ -1,12 +1,7 @@
-    /*Build Log:
-      1. after initial save, anytime a change happens to the slide, AUTOSAVE
-    */
-var app = {
+    var app = {
     slidePreviews: "",
-    slideDuration: 7000,
     presentation: {
         title: "",
-        theme: "themeName",
         slides: []
     },
     themes: [{
@@ -36,49 +31,30 @@ var app = {
     }]
 };
 
-
-
 $(document).ready(function () {
 
-var initialSave = false;
-
-var set = function (key,value){
-    app[key] = value;
-
-    if(initialSave){
-        localStorage.setItem("app", JSON.stringify(app));
-        console.log("save event occurs");
-    }
-    
-} 
-
-var autoSave = function () {
-
-}
-var get = function (key){
-    return app[key];
-}
-
     $("#themeOption").html($("#themeTemplate").tmpl(app));
-    //$("#slideNav").html($("#slidebarTemplate").tmpl());
-
     $("#slideFormContainer").html($("#slideFormTemplate").tmpl(app));
     $("#slideFormContainer").hide();
     $("#slideAddButton").html($("#addSlideTemplate").tmpl());
 
-    var showJson = function () {
-        $("#ObjectRep").html(JSON.stringify(app.presentation, null, "\t"));
-    };
+    var initialSave = false;
 
-    var uiUpdater = function (slideView, slide) {
+    var set = function (key,value){
+        app[key] = value;
 
-        showJson(); 
+        if(initialSave){
+            localStorage.setItem("app", JSON.stringify(app));
+            console.log("save event occurs");
+        }
+    } 
+
+    var uiUpdater = function (slideView) {
+        $("#ObjectRep").html(JSON.stringify(app.presentation, null, "\t")); 
+        $("#slideNav").html($("#slidebarTemplate").tmpl(app));
 
         if (slideView) {
-            //Display Slide Preview
             $("#ppt").html($("#slideTemplate").tmpl(slideView));
-            //Update and Render Slide Navigation Bar 
-            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
         }
 
         if (initialSave) {
@@ -88,35 +64,18 @@ var get = function (key){
     };
 
     var storage = {
-
         savePresentationData: function () {
-            // Place the app object into storage
             localStorage.setItem("app", JSON.stringify(app));
             console.log("save event occurs");
             initialSave = true;
-           // $(document).on("change", storage.savePresentationData);
-            /*try {
-            
-                // Set the interval and autosave every second
-                setInterval(function() {
-                    localStorage.setItem("app", JSON.stringify(app));
-                }, 1000);
-
-            } catch (e) {
-            
-                // If any errors, catch and alert the user
-                if (e == QUOTA_EXCEEDED_ERR) {
-                    alert('Quota exceeded!');
-                }
-            }*/
         },
 
         getPresentationData: function () {
-            // Retrieves the object app from HTML 5 local storage
             var retrievedObject = localStorage.getItem("app");
             var savedData = JSON.parse(retrievedObject);
             return savedData;
         },
+
         clearAppData: function (event) {
             localStorage.clear();
             return false;
@@ -124,48 +83,76 @@ var get = function (key){
     };
 
     var handlers = {
+        themeSelect: function (selection) {
+            var themeName = selection.data("theme-name") + "theme";
+            set("selectedTheme", themeName);
+            uiUpdater({});
+        },
 
         setTitle: function (title) {
-                    app.presentation.title = title;
-                    showJson();
+            app.presentation.title = title;
+            uiUpdater();
         },
 
-        themeSelector: function (selection) {
-            var themeName = selection.data("theme-name") + "theme";
-            handlers.themeOption(themeName);
+        slideInput: function () {
+            $("#slideFormContainer").show();
+            $("#slideSubmit").show();
+            $("#slideUpdate").hide();
+            $("#slideDeleteButton").hide();
+            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
+            uiUpdater({});
         },
 
-        themeOption: function (themeName) {
-            set("selectedTheme", themeName);
-            $(".theme").hide();
-            $("#ppt").html($("#slideTemplate").tmpl({}));
-            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
-            $("#ppt").on("click", function () {
-                $("#slideFormContainer").show();
-            });
+        addSlide: function (event) {
+            event.preventDefault();
+            var slide = form2js("slideForm");
+            var slidesLength = app.presentation.slides.length;
+            app.presentation.slides.push(slide);
+            set("displaySlide", slidesLength);
+
+            var slideRender = {
+                title: slide.title,
+                header: slide.header,
+                content: slide.content,
+                selectedTheme: app.selectedTheme
+            };
+
+            uiUpdater(slideRender);
         },
 
-        themeGhost: function () {
-            $(".theme").fadeIn(1000);
+        updateSlide: function () {
+            event.preventDefault();
+            var newSlide = form2js("slideForm");
+            var newSlideObj = {
+                title: newSlide.title,
+                header: newSlide.header,
+                content: newSlide.content,
+                selectedTheme: app.selectedTheme
+            };
+
+            app.presentation.slides.splice(app.selectedSlide, 1, newSlide);
+            uiUpdater(newSlideObj);
         },
 
-        themePreview: function () {
-            $(".theme").toggle();
+        deleteSlide: function(event){
+            event.preventDefault();
+            app.presentation.slides.splice(app.selectedSlide, 1);
+            $("#slideNav").html("");
+            uiUpdater({});
         },
 
-        slidePreview: function (event) {
+        slideToggle: function (event) {
             var slideNumber = $(event.currentTarget).data("slide-index");
             set("selectedSlide", slideNumber);
             var slide = app.presentation.slides[slideNumber];
-            var theme = app.selectedTheme,
-                slideObj = {
-                    title: slide.title,
-                    header: slide.header,
-                    content: slide.content,
-                    selectedTheme: theme
-                };
+            var slideObj = {
+                title: slide.title,
+                header: slide.header,
+                content: slide.content,
+                selectedTheme: app.selectedTheme
+            };
 
-            $("#ppt").html($("#slideTemplate").tmpl(slideObj));
+            uiUpdater(slideObj);
             $("#slideFormContainer").show();
             $("#slideSubmit").hide();
             $("#slideUpdate").show();
@@ -175,93 +162,54 @@ var get = function (key){
                 title: slide.title,
                 header: slide.header,
                 content: slide.content,
-                selectedTheme: theme
-            });
-            return slideNumber;
-        },
-
-        slideForm: function (event) {
-            event.preventDefault();
-            var slide = form2js("slideForm");
-            app.presentation.slides.push(slide);
-            $("#slideFormContainer").hide();
-
-            var slideRender = {
-                title: slide.title,
-                header: slide.header,
-                content: slide.content,
                 selectedTheme: app.selectedTheme
-            };
-
-            uiUpdater(slideRender, slide);
-        },
-
-        updateSlide: function (event) {
-            event.preventDefault();
-            var slides = app.presentation.slides,
-                slideIndex = app.selectedSlide;
-            currentSlide = app.presentation.slides[slideIndex];
-            theme = app.selectedTheme,
-            newSlide = form2js("slideForm");
-
-            slides.splice(slideIndex, 1, newSlide);
-
-            var newSlideObj = {
-                title: newSlide.title,
-                header: newSlide.header,
-                content: newSlide.content,
-                selectedTheme: theme
-            };
-
-            uiUpdater(newSlideObj, newSlide);
-        },
-
-        addSlide: function (){
-            var emptyRender = {};
-            uiUpdater(emptyRender);
-
-            $("#slideFormContainer").show();
-            $("#slideSubmit").show();
-            $("#slideUpdate").hide();
-            $("#slideDeleteButton").hide();
-            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
-        },
-
-        deleteSlide: function(event){
-            event.preventDefault();
-            app.presentation.slides.splice(app.selectedSlide, 1);
-            $("#slideNav").html("");
-            $("#slideNav").html($("#slidebarTemplate").tmpl(app));
-            uiUpdater();
+            });
         },
 
         loadData: function () {
-            //get data from localStorage
             var saved = storage.getPresentationData();
-            //check if its null / undefined
-            if ([null, undefined].indexOf(saved) === -1) {
-                //its not null/undefined - data exists!
+            if (saved) {
                 console.log("Data exists. Here's the data : ", saved);
-                
-                //setting app data to the one stored inlocalStorage
                 app = saved;
+                initialSave = true;
             }
             else {
-                //data DOES NOT exist in localStorage
                 console.log("Data does not exist, save to localStorage");
-                //So, save it in localStorage. Refresh this page now.
-                //storage.savePresentationData();
             }
 
-            var currentSlide = app.presentation.slides[app.selectedSlide];
-            uiUpdater(currentSlide,{});
+            var loadSlide = app.presentation.slides[app.selectedSlide];
+            var lastSlide = app.presentation.slides[app.displaySlide];
 
+            if (loadSlide){
+                var loadSlideObj = {
+                    title: loadSlide.title,
+                    header: loadSlide.header,
+                    content: loadSlide.content,
+                    selectedTheme: app.selectedTheme
+                };
+                uiUpdater(loadSlideObj);
+            }
+            else if (lastSlide) {
+                
+                var lastSlideObj = {
+                    title: lastSlide.title,
+                    header: lastSlide.header,
+                    content: lastSlide.content,
+                    selectedTheme: app.selectedTheme
+                };
+                uiUpdater(lastSlideObj);
+            }
+            else{
+                uiUpdater();
+            }
+            
             if(app.presentation.title !== ""){
                 $("#presentationTitle").text(app.presentation.title);
             }
         }
-
     };
+
+    handlers.loadData();
 
     $("#presentationTitle").inline({
         textSize: "250%",
@@ -269,30 +217,18 @@ var get = function (key){
         callback: handlers.setTitle
     });
 
-
     $(".theme").on("click", function () {
         var selection = $(this);
-        handlers.themeSelector(selection);
+        handlers.themeSelect(selection);
     });
 
-    $("#themeSelect :button").on("click", handlers.themeGhost);
-
-    $("#addSlideButton").on("click", handlers.addSlide);
-
-    $("#slideForm").on("submit", handlers.slideForm);
-
-    $("#slideNav").on("click", "div.slideNavPreview", handlers.slidePreview);
-
+    $("#slideAddButton").on("click", handlers.slideInput);
+    $("#slideForm").on("submit", handlers.addSlide);
     $("#slideUpdate").on("click", handlers.updateSlide);
-
-    $("#slideAddButton").on("click", handlers.addSlide);
-
     $("#slideDeleteButton").on("click", handlers.deleteSlide);
 
+    $("#slideNav").on("click", "div.slideNavPreview", handlers.slideToggle);
+
     $("#save").on("click", storage.savePresentationData);
-
     $("#clearStorage").on("click", storage.clearAppData);
-
-    $(window).load(handlers.loadData);
-
 });
