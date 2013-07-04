@@ -120,7 +120,7 @@ $(document).ready(function () {
             uiUpdater(slideRender);
         },
 
-        updateSlide: function () {
+        updateSlide: function (event) {
             event.preventDefault();
             var newSlide = form2js("slideForm");
             var newSlideObj = {
