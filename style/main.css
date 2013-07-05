@@ -8,8 +8,14 @@ text-align: center; margin: 20px; height:  120px; width: 120px; float: left;
 .slidebarprev{
 clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px; width: 100px; font-size: 40%;
 }
+.presNavPreview{
+	clear: both; margin: 20px; float: right; border: 2px solid black; height: 60px; width: 150px; font-size: 60%;
+}
 .slidePlus{
 	font-size: 500%; postion: middle;
+}
+.contLabel{
+	font-size: 150%; postion: middle;
 }
 img#plus{ display: block; margin-left: auto; margin-right: auto; }
 .whitetheme{

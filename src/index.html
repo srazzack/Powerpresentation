@@ -69,8 +69,25 @@
             {{/each}}
         </script>
 
+        <script id="presentationSelectTemplate" type="text/x-jquery-tmpl">
+            {{each presentations}}
+            <div id="selectable" class="presNavPreview presentationNavPreview ${selectedTheme} ${css} btn" name='${name}' data-presentation-index='${$index}'> 
+            ${$index + 1}
+            <div>${title}</div>
+
+            </div>
+            {{/each}}
+
+        </script>
+
+        <script id="addPresentationTemplate" type="text/x-jquery-tmpl">
+
+            <figure id="selectable" class="presNavPreview ${selectedTheme} ${css} btn" name='addPresentationIcon'>NEW</figure>
+
+        </script>
+
         <script id="slidebarTemplate" type="text/x-jquery-tmpl">
-            {{each presentation.slides}}
+            {{each slides}}
             <div id="selectable" class="slidebarprev slideNavPreview ${selectedTheme} ${css} btn" name='${name}' data-slide-index='${$index}'> 
             ${$index + 1}
             <div>${title}</div>
@@ -108,19 +125,27 @@
                         </div>
                 </div>
               <div class="row-fluid">
-                    <div class="span3 pre-scrollable well">
-                        <figure id="slideNav">
+                    <div class="span2 pre-scrollable well">
+                        <p class="contLabel">PRESENTATIONS</p> 
+                        <figure id="presNav"> 
+                        </figure>
+                        <figure id="presAddButton">
+                        </figure>
+                    </div>
+                    <div class="span2 pre-scrollable well">
+                        <p class="contLabel">SLIDES</p> 
+                        <figure id="slideNav">  
                         </figure>
                         <figure id="slideAddButton">
                         </figure>
                     </div>
-                    <div class="span6 well">
+                    <div class="span5 well">
                           <article class="span9">
                             <form>
                                 <input type="hidden" name="hiddenField" />
                             </form>
                             <p id="presentationTitle" class="inline">Please enter the title of your presentation here</p>
-                                <div id="ppt"></div>
+                                <div id="slideView"></div>
                           </article>
                     </div>
                     <div class="span3 well" id="slideFormContainer">
@@ -132,7 +157,7 @@
                 <div class="container-fluid">
                     <h4>The JSON represenation of the slide</h4>
                         <pre class="pre-scrollable">
-                            <code id="ObjectRep"></code>
+                            <code id="objectRep"></code>
                         </pre>
                 </div>
             </footer>
