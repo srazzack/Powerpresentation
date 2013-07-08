@@ -22,33 +22,33 @@
 
 
         <script id="slideFormTemplate" type="text/x-jquery-tmpl">
-                    <form class="form-horizontal" id="slideForm">
-                        <dl>
-                            <dt><label for="slideTitle">Slide Title:</label></dt>
-                            <dd><input id="slideTitle" type="text" name="title"/></dd>
-                        </dl>
-                        <dl>
-                            <dt><label for="slideHeader">Slide Header:</label></dt>
-                            <dd><input id="slideHeader" type="text" name="header"/></dd>
-                        </dl>
-                        <dl>
-                            <dt>Content</dt>
-                            <dd>
-                                <textarea rows="5" cols="20" name="content">Slide content here</textarea>
-                            </dd>
-                        </dl>
+            <form class="form-horizontal" id="slideForm">
+                <dl>
+                    <dt><label for="slideTitle">Slide Title:</label></dt>
+                    <dd><input id="slideTitle" type="text" name="title"/></dd>
+                </dl>
+                <dl>
+                    <dt><label for="slideHeader">Slide Header:</label></dt>
+                    <dd><input id="slideHeader" type="text" name="header"/></dd>
+                </dl>
+                <dl>
+                    <dt>Content</dt>
+                    <dd>
+                        <textarea rows="5" cols="20" name="content">Slide content here</textarea>
+                    </dd>
+                </dl>
 
-                        <dl>
-                            <dt></dt>
-                            <dd><input id="slideSubmit" type="submit" class="btn" value="Add Slide" /></dd>
-                        </dl>
-                        <dl>
-                            <dd><input id="slideUpdate" class="btn" type="submit" value="Update Slide"/></dd>
-                        </dl>
-                        <dl>
-                            <dd><input id="slideDeleteButton" class="btn" type="submit" value="Delete Slide"/></dd>
-                        </dl>
-                    </form>
+                <dl>
+                    <dt></dt>
+                    <dd><input id="slideSubmit" type="submit" class="btn" value="Add Slide" /></dd>
+                </dl>
+                <dl>
+                    <dd><input id="slideUpdate" class="btn" type="submit" value="Update Slide"/></dd>
+                </dl>
+                <dl>
+                    <dd><input id="slideDeleteButton" class="btn" type="submit" value="Delete Slide"/></dd>
+                </dl>
+            </form>
         </script>
 
         <script id="slideTemplate" type="text/x-jquery-tmpl">
@@ -69,6 +69,17 @@
             {{/each}}
         </script>
 
+        <script id="presTitleTemplate" type="text/x-jquery-tmpl">
+
+            <form class="form-horizontal" id="titleForm">
+                <dl>
+                    <dt><label for="presentationTitle">Slide Title:</label></dt>
+                    <dd><input id="presentationTitle" type="text" name="titleOfPresenation"/></dd>
+                </dl>
+            </form>
+
+        </script>
+
         <script id="presentationSelectTemplate" type="text/x-jquery-tmpl">
             {{each presentations}}
             <div id="selectable" class="presNavPreview presentationNavPreview ${selectedTheme} ${css} btn" name='${name}' data-presentation-index='${$index}'> 
@@ -83,6 +94,12 @@
         <script id="addPresentationTemplate" type="text/x-jquery-tmpl">
 
             <figure id="selectable" class="presNavPreview ${selectedTheme} ${css} btn" name='addPresentationIcon'>NEW</figure>
+
+        </script>
+
+        <script id="titleTemplate" type="text/x-jquery-tmpl">
+
+            <figure id="selectable" class="title ${selectedTheme} ${css}" > ${title}</figure>
 
         </script>
 
@@ -144,7 +161,7 @@
                             <form>
                                 <input type="hidden" name="hiddenField" />
                             </form>
-                            <p id="presentationTitle" class="inline">Please enter the title of your presentation here</p>
+                            <p id="presentationTitle" class="inline">Enter title of presentation here</p>
                                 <div id="slideView"></div>
                           </article>
                     </div>

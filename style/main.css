@@ -14,6 +14,10 @@ clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px;
 .slidePlus{
 	font-size: 500%; postion: middle;
 }
+.title{
+	width: relative; height:30px; padding:1px; border:2px solid gray; margin:0px; margin-left: auto;
+    margin-right: auto;
+}
 .contLabel{
 	font-size: 150%; postion: middle;
 }

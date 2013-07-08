@@ -48,8 +48,13 @@ $(document).ready(function () {
     $("#presNav").html($("presentationSelectTemplate").tmpl(app));
     $("#presAddButton").html($("#addPresentationTemplate").tmpl(app));
     $("#slideAddButton").html($("#addSlideTemplate").tmpl());
-    $("#presentationTitle").show();
 
+    if(app.selectedPresentation){
+        $("#presentationTitle").show();
+    }
+    else{
+        $("#presentationTitle").hide();
+    }
     var initialSave = false;
 
     var set = function (key,value){
@@ -109,9 +114,10 @@ $(document).ready(function () {
             var index = app.selectedPresentation;
             app.presentations[index].title = title;
             uiUpdater();
-        },
+         },
 
         addPresentation: function () {
+            $("#presentationTitle").hide();
             app.presentations.push({title: "", slides: [], selectedTheme: ""});
             var presentationsLength = app.presentations.length;
             app.selectedPresentation = presentationsLength;
@@ -124,6 +130,10 @@ $(document).ready(function () {
             set("selectedPresentation", presentationNumber);
             $("#presentationTitle").show();
             $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
+            var presText = app.presentations[app.selectedPresentation].title;
+            if(presText !== ""){
+              $("#presentationTitle").text(presText);  
+            }
             uiUpdater({});
         },
 
