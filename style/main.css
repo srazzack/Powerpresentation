@@ -21,6 +21,10 @@ clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px;
 .contLabel{
 	font-size: 150%; postion: middle;
 }
+#slideView:full-screen
+{
+	width:700px; height:700px;
+}
 img#plus{ display: block; margin-left: auto; margin-right: auto; }
 .whitetheme{
 	border: 2px solid black; 

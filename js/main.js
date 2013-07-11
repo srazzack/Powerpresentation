@@ -1,6 +1,5 @@
     /*
     TO DO List: 
-    1. Multiple Presentation Ui
     2. HTML 5 FullScreen Play button
     3. Drag and Drop Reordering of Slides
     */
@@ -8,6 +7,7 @@
     var app = {
     slidePreviews: "",
     selectedPresentation: 0,
+    version: "1.0",
     presentations: [{
         title: "",
         slides: []
@@ -66,6 +66,16 @@ $(document).ready(function () {
         }
     } 
 
+    var deepSet = function (key,value){
+        var index = app.selectedPresentation;
+        app.presentations[index][key] = value;
+
+        if(initialSave){
+            localStorage.setItem("app", JSON.stringify(app));
+            console.log("save event occurs");
+        }
+    } 
+
     var uiUpdater = function (slide) {
         var index = app.selectedPresentation;
         $("#objectRep").html(JSON.stringify(app.presentations[index], null, "\t"));
@@ -83,6 +93,32 @@ $(document).ready(function () {
         }
     };
 
+    var launchFullScreen = function (element) {
+        if(element.requestFullScreen) {
+            element.requestFullScreen();
+        } 
+        else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } 
+        else if(element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+        }
+    };
+
+    var cancelFullscreen = function() {
+
+        if(document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } 
+        else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } 
+        else if(document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+      }
+
+    };
+    
     var storage = {
         savePresentationData: function () {
             localStorage.setItem("app", JSON.stringify(app));
@@ -127,6 +163,10 @@ $(document).ready(function () {
 
         presentationToggle: function (event) {
             var presentationNumber = $(event.currentTarget).data("presentation-index");
+            var index = presentationNumber;
+            var slideIndex = app.presentations[index].selectedSlide;
+            var savedSlide = app.presentations[index].slides[slideIndex];
+            console.log(savedSlide);
             set("selectedPresentation", presentationNumber);
             $("#presentationTitle").show();
             $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
@@ -135,6 +175,17 @@ $(document).ready(function () {
               $("#presentationTitle").text(presText);  
             }
             uiUpdater({});
+
+            if (savedSlide){
+                var savedSlideObj = {
+                    title: savedSlide.title,
+                    header: savedSlide.header,
+                    content: savedSlide.content,
+                    selectedTheme: app.presentations[index].selectedTheme
+                };
+                uiUpdater(savedSlideObj);
+            }
+
         },
 
         slideInput: function () {
@@ -189,8 +240,10 @@ $(document).ready(function () {
 
         slideToggle: function (event) {
             var slideNumber = $(event.currentTarget).data("slide-index");
-            set("selectedSlide", slideNumber);
             var index = app.selectedPresentation;
+
+            deepSet("selectedSlide", slideNumber);
+            
             var slide = app.presentations[index].slides[slideNumber];
             var slideObj = {
                 title: slide.title,
@@ -217,8 +270,16 @@ $(document).ready(function () {
             var saved = storage.getPresentationData();
             if (saved) {
                 console.log("Data exists. Here's the data : ", saved);
-                app = saved;
-                initialSave = true;
+                
+                if (app.version == saved.version){
+                    app = saved;
+                    initialSave = true;
+                }
+                else {
+                    alert("version mismatch, storage data will be cleared");
+                    localStorage.clear();
+                }
+                
             }
             else {
                 console.log("Data does not exist, save to localStorage");
@@ -251,8 +312,6 @@ $(document).ready(function () {
             }
             
             if(app.presentations[index].title !== ""){
-                console.log(app.presentations[index].title);
-                console.log(index);
                 $("#presentationTitle").text(app.presentations[index].title);
             }
         }
@@ -262,13 +321,23 @@ $(document).ready(function () {
 
     $("#presentationTitle").inline({
         textSize: "250%",
-        defaultText: "",
+        defaultValue: "Enter title of presentation here",
         callback: handlers.setTitle
     });
 
     $(".theme").on("click", function () {
         var selection = $(this);
         handlers.themeSelect(selection);
+    });
+
+    $("#slideView").on("keypress", function (event){
+        if(event.which == 27){
+            cancelFullscreen();
+        }
+    });
+
+    $("#slideView").on("click", function(event){
+        launchFullScreen($("#slideView").get(0)); 
     });
 
     $("#presAddButton").on("click", handlers.addPresentation);
@@ -283,4 +352,5 @@ $(document).ready(function () {
 
     $("#save").on("click", storage.savePresentationData);
     $("#clearStorage").on("click", storage.clearAppData);
+
 });
