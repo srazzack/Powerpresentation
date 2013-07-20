@@ -1,7 +1,8 @@
     /*
     TO DO List: 
-     Drag and Drop Reordering of Slides
-     Backbone Implementation
+    1. Fix App problem of Add slide upon refresh
+    2. Drag and Drop Reordering of Slides
+    3. Backbone Implementation
     */
 
     var app = {
@@ -76,17 +77,15 @@ $(document).ready(function () {
         }
     } 
 
-    var uiUpdater = function (slide, add, hide) {
+    var uiUpdater = function (slide) {
         var index = app.selectedPresentation;
         $("#objectRep").html(JSON.stringify(app.presentations[index], null, "\t"));
         $("#presNav").html($("#presentationSelectTemplate").tmpl(app)); 
-
         $("#slideNav").html($("#slidebarTemplate").tmpl(app.presentations[index]));
         $("#slideAddButton").html($("#addSlideTemplate").tmpl());
-        $("#slideView").html($("#slideTemplate").tmpl({}));
 
         if (slide) {
-
+            console.log(slide);
             $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
             $("#slideForm").populate({
                 title: slide.title,
@@ -99,28 +98,12 @@ $(document).ready(function () {
             $("#slideFormContainer").show();
             $("#slideSubmit").hide();
             $("#slideDeleteButton").show();
-            $("#slideUpdate").show();  
+            $("#slideUpdate").show();
         }
 
         if (initialSave) {
             localStorage.setItem("app", JSON.stringify(app));
             console.log("save event occurs");
-        }
-
-        if (add) {
-            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
-            $("#slideFormContainer").show();
-            $("#slideSubmit").show();
-            $("#slideUpdate").hide();
-            $("#slideDeleteButton").hide();
-        }
-
-        if (hide){
-            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
-            $("#slideFormContainer").hide();
-            $("#slideSubmit").hide();
-            $("#slideUpdate").hide();
-            $("#slideDeleteButton").hide();
         }
     };
 
@@ -177,7 +160,7 @@ $(document).ready(function () {
             var themeName = selection.data("theme-name") + "theme";
             var index = app.selectedPresentation;
             app.presentations[index].selectedTheme = themeName;
-            uiUpdater();
+            uiUpdater({});
         },
 
         setTitle: function (title) {
@@ -190,14 +173,13 @@ $(document).ready(function () {
             $("#presentationTitle").hide();
             app.presentations.push({title: "", slides: [], selectedTheme: ""});
             app.selectedPresentation = app.presentations.length - 1;
-            uiUpdater(null, {});
+            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
+            uiUpdater({});
         },
 
         presentationToggle: function (event) {
             var presentationNumber = $(event.currentTarget).data("presentation-index");
             var index = presentationNumber;
-            var slideIndex = app.presentations[index].selectedSlide;
-            var savedSlide = app.presentations[index].slides[slideIndex];
             set("selectedPresentation", presentationNumber);
             $("#presentationTitle").show();
             $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
@@ -206,20 +188,24 @@ $(document).ready(function () {
               $("#presentationTitle").text(presText);  
             }
 
-            if (savedSlide){
-                var savedSlideObj = {
-                    title: savedSlide.title,
-                    header: savedSlide.header,
-                    content: savedSlide.content,
-                    selectedTheme: app.presentations[index].selectedTheme
-                };
-                uiUpdater(savedSlideObj);
-            }
+            var slideIndex = app.presentations[index].selectedSlide;
+            var savedSlide = app.presentations[index].slides[slideIndex];
 
+            if(savedSlide){
+                savedSlide.selectedTheme = app.presentations[index].selectedTheme;
+                console.log(savedSlide.selectedTheme);
+                uiUpdater(savedSlide);
+            }
         },
 
         slideInput: function () {
-            uiUpdater(null, {});
+
+            $("#slideFormContainer").show();
+            $("#slideSubmit").show();
+            $("#slideUpdate").hide();
+            $("#slideDeleteButton").hide();
+            $("#slideFormContainer > #slideForm input[type=text], textarea").val("");
+            uiUpdater({});
         },
 
         addSlide: function (event) {
@@ -230,29 +216,17 @@ $(document).ready(function () {
             app.presentations[index].slides.push(slide);
             set("displaySlide", slidesLength);
 
-            var slideRender = {
-                title: slide.title,
-                header: slide.header,
-                content: slide.content,
-                selectedTheme: app.presentations[index].selectedTheme
-            };
-
-            uiUpdater(slideRender);
+            slide.selectedTheme = app.presentations[index].selectedTheme;
+            uiUpdater(slide);
         },
 
         updateSlide: function (event) {
             event.preventDefault();
-            var newSlide = form2js("slideForm");
+            var updatedSlide = form2js("slideForm");
             var index = app.selectedPresentation;
-            var newSlideObj = {
-                title: newSlide.title,
-                header: newSlide.header,
-                content: newSlide.content,
-                selectedTheme: app.presentations[index].selectedTheme
-            };
-
-            app.presentations[index].slides.splice(app.presentations[index].selectedSlide, 1, newSlide);
-            uiUpdater(newSlideObj);
+            updatedSlide.selectedTheme = app.presentations[index].selectedTheme;
+            app.presentations[index].slides.splice(app.presentations[index].selectedSlide, 1, updatedSlide);
+            uiUpdater(updatedSlide);
         },
 
         deleteSlide: function(event){
@@ -260,28 +234,22 @@ $(document).ready(function () {
             var index = app.selectedPresentation;
             app.presentations[index].slides.splice(app.presentations[index].selectedSlide, 1);
             $("#slideNav").html("");
-            if(app.presentations[index].slides.length === 0){
-                uiUpdater(null,{});
-            }
-            else{
-                uiUpdater({}); 
-            }
+            uiUpdater({});
         },
 
         slideToggle: function (event) {
             var slideNumber = $(event.currentTarget).data("slide-index");
             var index = app.selectedPresentation;
-
             deepSet("selectedSlide", slideNumber);
             
             var slide = app.presentations[index].slides[slideNumber];
-            var slideObj = {
-                title: slide.title,
-                header: slide.header,
-                content: slide.content,
-                selectedTheme: app.presentations[index].selectedTheme
-            };
-            uiUpdater(slideObj);
+            slide.selectedTheme = app.presentations[index].selectedTheme;
+
+            uiUpdater(slide);
+            $("#slideFormContainer").show();
+            $("#slideSubmit").hide();
+            $("#slideUpdate").show();
+            $("#slideDeleteButton").show();
         },
 
         loadData: function () {
@@ -307,23 +275,12 @@ $(document).ready(function () {
             var lastSlide = app.presentations[index].slides[app.presentations[index].selectedSlide];
 
             if (savedSlide){
-                var savedSlideObj = {
-                    title: savedSlide.title,
-                    header: savedSlide.header,
-                    content: savedSlide.content,
-                    selectedTheme: app.presentations[index].selectedTheme
-                };
-                uiUpdater(savedSlideObj);
+                savedSlide.selectedTheme = app.presentations[index].selectedTheme
+                uiUpdater(savedSlide);
             }
             else if (lastSlide) {
-                
-                var lastSlideObj = {
-                    title: lastSlide.title,
-                    header: lastSlide.header,
-                    content: lastSlide.content,
-                    selectedTheme: app.presentations[index].selectedTheme
-                };
-                uiUpdater(lastSlideObj);
+                lastSlide.selectedTheme = app.presentations[index].selectedTheme;
+                uiUpdater(lastSlide);
             }
             else{
                 uiUpdater();
@@ -352,6 +309,32 @@ $(document).ready(function () {
         if(event.which == 27){
             cancelFullscreen();
         }
+    });
+
+    var showSlide = function(slide) {
+        if (!slide.css) {
+            slide.css = presentation.css;
+        }
+
+        var slideObj = {
+            slide: slide,
+            css: slide.css ? slide.css : presentation.css
+        };
+
+        launchFullscreen($("#slideshow").html($('#slideTemplate').tmpl(slideObj)));
+    };  
+
+    $("#slideView").on("click", function () {
+        var index = app.selectedPresentation;
+        var slideIndex = app.presentations[index].selectedSlide;
+        if (slideIndex < app.presentations[index].slides.length) {
+            currentSlide = app.presentations[index].slides[slideIndex++];
+        }
+        else {slideIndex > app.presentations[index].slides.length;
+            slideIndex = 0;
+            currentslide = app.presentations[index].slides[slideIndex++];
+        }
+        showSlide(currentslide);
     });
 
     $("#slideView").on("click", function(event){

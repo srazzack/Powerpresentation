@@ -9,7 +9,7 @@ text-align: center; margin: 20px; height:  120px; width: 120px; float: left;
 clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px; width: 100px; font-size: 40%;
 }
 .presNavPreview{
-	clear: both; margin: 20px; float: right; border: 2px solid black; height: 60px; width: 150px; font-size: 60%;
+	clear: both; margin: 20px; float: right; border: 2px solid black; height: 60px; width: 150px; font-size: 150%;
 }
 .slidePlus{
 	font-size: 500%; postion: middle;
@@ -21,9 +21,9 @@ clear: both; margin: 20px; float: right; border: 2px solid black; height: 100px;
 .contLabel{
 	font-size: 150%; postion: middle;
 }
-#slideView:full-screen
-{
-	width:700px; height:700px;
+ #slideView :-webkit-full-screen{
+  width: 100%;
+  height: 100%;
 }
 img#plus{ display: block; margin-left: auto; margin-right: auto; }
 .whitetheme{
