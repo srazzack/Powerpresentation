@@ -1,11 +1,12 @@
 
-//Question number 1: how will these function methods be called. 
-//Quetion number 2: How does 
+//Question number 1: How do we bring in the backend component into this App?
+//Question number 2: How does 
 
 (function () {
 	App = {};
 
 	App.application = Backbone.Model.extend({
+
 		defaults: {
 			version: "1.0",
 			selectedPresentation: 0,
@@ -23,9 +24,9 @@
 		},
 
 		loadApplicationData: function () {
-			var saved = storage.getPresentationData();
-            if (saved) {
-                console.log("Data exists. Here's the data : ", saved);
+			//var saved = storage.getPresentationData();
+            //if (saved) {
+                //console.log("Data exists. Here's the data : ", saved);
                 
                 if (app.version == saved.version){
                     app = saved;
@@ -44,8 +45,9 @@
 
 		addPresentation: function (presentation) {
 			// perform validation
-			if(presentation.title.length > 10)
-			this.presentations.push(presentation);
+			if(presentation.title.length > 10){
+				this.presentations.push(presentation);
+			}
 		},
 
 		importPresentation: function (presentation) {
@@ -79,11 +81,6 @@
 		 		}
 		 	});
 		}
-
-		deleteAppData: {
-
-		}
-
 	});
 
 	App.presentation = Backbone.Model.extend({
@@ -129,8 +126,8 @@
 			this.slides.push(slide);
 		},
 
-		moveSlide: function (slide, index) {
-		 	this.slides.splice(index, 1, slide);
+		moveSlide: function (initialIndex, finalIndex) {
+    		this.slides.splice(finalIndex, 0, this.splice(initialIndex, 1)[0]);
 		},
 
 		deleteSlide: function () {
@@ -210,6 +207,8 @@
 
 	App.AppView = Backbone.View.extend({
 
+		el: 'body',
+
 		initialize: function() {
 			this.render();
 		},
@@ -219,7 +218,9 @@
 			var template = _.template($("#appTemplate").html());
 			var output = template({data: presentation});
 			//$("#mainElement").append(output);
-			this.$el.append({data: prensentation});
+
+			this.$el.empty();
+			this.$el.append(output);
 
 			return this;
 		}
@@ -230,8 +231,5 @@
 			"click #addSlideButton": 'displaySlide',
 			"click #addPresentation": 'newPresentation'
 		}
-		
-
 	});
-
 }());
