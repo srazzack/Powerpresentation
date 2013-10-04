@@ -1,3 +1,5 @@
+
+//Backbone implementation of the Powerpresentation Application
 var SlidesCollection = Backbone.Collection.extend({
 
 	model:Slide,
@@ -92,14 +94,14 @@ var Presentation = Backbone.Model.extend({
 		});
 		this.on("change:slides", function(model){
 			console.log("A slide has been added, updated or deleted");
-		});
+		});	
 		this.on("change", function(model) {
 			console.log( "The selected slide is set to: " + model.get("selectedSlide")); 
 			console.log("The selected theme is set to: " + model.get("selectedTheme"));
 		})
 	},
 
-	setPresentationTitle: function (title) {
+	setPresentationTitlsse: function (title) {
 	 	this.set("title", title);
 	},
 
