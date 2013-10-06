@@ -1,10 +1,49 @@
 describe("Backbone Model Test", function () {
     describe("create app", function () {
-        it("should create a new app ", function () {
+        it("should add a presentation to the App", function () {
             var myApp = new App();
+            var myPresentation = new Presentation();
+            myApp.get('presentations').add(myPresentation);
+            expect(myApp.get('presentations').length).toBe(1);
+        });
 
-            console.log(myApp);
+        it("should set the title of the presentation", function () {
+            var myApp = new App();
+            var myPresentation = new Presentation();
+            myPresentation.set('title', 'The first presentation');
+            expect(myPresentation.get('title')).toEqual('The first presentation');
+        });
 
+        it("should add another presentation at the first index", function () {
+            var myApp = new App();
+            var myPresentation = new Presentation();
+            var anotherPresentation = new Presentation();
+            myApp.get('presentations').add(anotherPresentation, {at:0});
+            expect(myApp.get('presentations').length).toBe(2);
+            expect(anotherPresentation).toBe(myApp.get('presentations').at(0));
+        });
+
+        it("should move a presentation to the second index", function () {
+            var myApp = new App();
+            var anotherPresentation = new Presentation();
+            var myPresentation = new Presentation();
+            myApp.get('presentations').add(anotherPresentation);
+            myApp.get('presentations').add(myPresentation);
+            myApp.get('presentations').movePresentation(anotherPresentation, 1);
+            expect(anotherPresentation).toBe(myApp.get('presentations').at(1));
+        });
+        it("should delete the presentation", function () {
+            var myApp = new App();
+            var anotherPresentation = new Presentation();
+            myApp.get('presentations').add(anotherPresentation);
+            expect(anotherPresentation).toEqual(myApp.get('presentations').get(anotherPresentation));
+            myApp.get('presentations').deletePresentation(anotherPresentation);
+            expect(myApp.get('presentations').get(anotherPresentation)).toBeUndefined();
+        });
+
+        it("should add multiple slides to presentation with titles", function () {
+            var myApp = new App();
+            var myPresentation = new Presentation();
             var slide = new Slide();
             slide.set('title', 'intro');
             var slide2 = new Slide();
@@ -12,30 +51,36 @@ describe("Backbone Model Test", function () {
             var slide3 = new Slide();
             slide3.set('title', 'conclusion');
 
-            myApp.presentations = new PresentationCollection();
+            myPresentation.set('title', 'Intro to Islam');
 
-            var presentation = new Presentation();
-            presentation.set('title', 'Intro to Islam');
+            myPresentation.get('slides').add([slide,slide2,slide3]);
+        });
 
-            presentation.set('slides', new SlidesCollection());
-            presentation.get('slides').add(slide);
-            presentation.get('slides').add(slide2);
-            presentation.get('slides').add(slide3, {at:0});
+        it("should move the third slide to the first index", function () {
+            var myApp = new App();
+            var anotherPresentation = new Presentation();
+            var slide3 = new Slide();
+            var slide1 = new Slide();
+            var slide2 = new Slide();
+            anotherPresentation.get('slides').add(slide1);
+            anotherPresentation.get('slides').add(slide2);
+            anotherPresentation.get('slides').add(slide3);
+            anotherPresentation.get('slides').moveSlide(slide3, 0);
+            expect(slide3).toBe(anotherPresentation.get('slides').at(0));
+        });
 
-            expect(presentation.get('slides').length).toBe(3);
-            expect(slide3).toBe(presentation.get('slides').at(0));
-            expect(slide2).toBe(presentation.get('slides').at(2));
-
-            presentation.get('slides').moveSlide(slide3, 2);
-
-            expect(presentation.get('slides').length).toBe(3);
-            expect(slide3).toBe(presentation.get('slides').at(2));
-
-            presentation.get('slides').remove(slide3);
-
-            expect(presentation.get('slides').length).toBe(2);
-            expect(presentation.get('slides').get(slide3)).toBeUndefined();
-
+        it("should delete the slide", function () {
+            var myApp = new App();
+            var anotherPresentation = new Presentation();
+                        var slide3 = new Slide();
+            var slide1 = new Slide();
+            var slide2 = new Slide();
+            anotherPresentation.get('slides').add(slide1);
+            anotherPresentation.get('slides').add(slide2);
+            anotherPresentation.get('slides').add(slide3);
+            expect(anotherPresentation.get('slides').get(slide3)).toBeDefined();
+            anotherPresentation.get('slides').deleteSlide(slide3);
+            expect(anotherPresentation.get('slides').get(slide3)).toBeUndefined();
         });
 
         it("should test the addPresentation and addSlide function within App Model and Presentation Model respectively ",function () { 
@@ -46,9 +91,6 @@ describe("Backbone Model Test", function () {
             testSlide.set('title', 'This is a test slide');
             testApp.addPresentation(testPresentation);
             testPresentation.addSlide(testSlide);
-
-            expect(testApp.get('presentations').length).toBe(1);
-            expect(testPresentation.get('slides').length).toBe(1);
             expect(testSlide.get('title')).toEqual('This is a test slide');
 
         });
@@ -75,7 +117,7 @@ describe("Backbone Model Test", function () {
         });
 
         it("should set a theme for the presentation with a title", function () {
-            var ppApp = new App ();
+            var ppApp = new App();
             var presentation = new Presentation({title:'Backbone tutorials'});
             ppApp.addPresentation(presentation);
             presentation.setTheme("redTheme");
