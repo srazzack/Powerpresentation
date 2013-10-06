@@ -80,14 +80,15 @@ var Presentation = Backbone.Model.extend({
 	},
 
 	validate: function (){
+	    console.log(this.get('title'));
 	    if(this.get("title").length < 3){
 	    	throw new Error("set a title for your presentation");
 	    }
 	},
 
-	initalize: function(){
+	initialize: function(){
 
-		this.validate();
+		//this.validate();
 
 		this.on("change:title", function(model){
 			console.log('title changed to: ' + model.get("title"));
@@ -101,7 +102,7 @@ var Presentation = Backbone.Model.extend({
 		})
 	},
 
-	setPresentationTitlsse: function (title) {
+	setPresentationTitle: function (title) {
 	 	this.set("title", title);
 	},
 

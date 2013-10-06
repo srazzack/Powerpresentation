@@ -136,4 +136,13 @@ describe("Backbone Model Test", function () {
             expect(myApp.get('presentations').get(myPresentation)).toBeUndefined();
         });
     });
+    
+    describe("tests for errors", function () {
+        it("upon initialization without title, validation should throw error", function () {
+            var myApp = new App();
+            var newPresentation = new Presentation();
+            myApp.get('presentations').add(newPresentation);
+            console.log('error must be thrown');
+        });
+    });
 });
