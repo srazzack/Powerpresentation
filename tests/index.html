@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SNote</title>
+    </head>
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <div id="slidesBar" class="span2">
+
+                </div>
+
+                <div id="slideContainer" class="span10 slideContainer">
+                    <label id="activeSlide"></label>
+                    
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <button id="saveSlide">Save</button>
+
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="master" charset="utf-8">
+        <link rel="stylesheet" href="style/style.css" type="text/css" media="screen" title="master" charset="utf-8">
+        <script src='lib/jquery1.9.1.js'></script>
+        <script src='lib/underscore.js'></script>
+        <script src='lib/backbone.js'></script>
+        <script src='lib/jquery.inline.js'></script>
+
+        <script id="presViewTemplate" type="text/template">
+            <ul>
+                <% _.each(models, function (slide) { %>
+                    <div id="slidesBarTemp">
+                    <li id="slideTitle"><%= slide.get("title") %></li>
+                    <li id="slideHeader"><%= slide.get("header") %></li>
+                    <li id="slideContent"><%= slide.get("content") %></li>
+                    </div>
+                <% }) %>
+                
+            </ul>
+        </script>
+
+        <script id="slideTemplate" type="text/template">
+            <ul>
+                <li id="slideTitle"><%= title %></li>
+                <li id="slideHeader"><%= header %></li>
+                <li id="slideContent"><%= content %></li>
+            </ul>
+        </script>
+        <script type="text/javascript" src="src/models.slide.js"></script>
+        <script type="text/javascript" src="src/collections.slides.js"></script>
+        <script type="text/javascript" src="src/models.presentation.js"></script>
+        <script type="text/javascript" src="src/collections.presentations.js"></script>
+        <script type="text/javascript" src="src/models.theme.js"></script>
+        <script type="text/javascript" src="src/collections.themes.js"></script>
+        <script type="text/javascript" src="src/views.activepresentation.js"></script>
+        <script type="text/javascript" src="src/views.activeslide.js"></script>
+        <script type="text/javascript" src="src/app.js"></script>
+
+    </body>
+</html>
