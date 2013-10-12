@@ -31,7 +31,6 @@ var PresentationCollection = Backbone.Collection.extend({
 });
 
 var ThemesCollection = Backbone.Collection.extend({model:Theme});
-
 var Theme = Backbone.Model.extend({});
 
 var App = Backbone.Model.extend({
@@ -43,7 +42,6 @@ var App = Backbone.Model.extend({
 	},
 
 	initialize: function() {
-
 		this.on("change", function() {
 		});
 	},
@@ -121,6 +119,8 @@ var Presentation = Backbone.Model.extend({
 });
 
 var Slide = Backbone.Model.extend({
+
+	url: '/slides',
 	defaults: {
 		title: "",
 		header: "Slide Header",
@@ -156,3 +156,4 @@ var Slide = Backbone.Model.extend({
 		this.set("content", content);
 	}
 });
+
