@@ -1,0 +1,1 @@
+var ThemesCollection = Backbone.Collection.extend({model:theme});
