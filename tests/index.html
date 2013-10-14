@@ -4,26 +4,6 @@
         <title>SNote</title>
     </head>
     <body>
-
-        <div class="container-fluid">
-
-            <div class="row-fluid">
-                <div id="slidesBar" class="span2">
-
-                </div>
-
-                <div id="slideContainer" class="span10 slideContainer">
-                    <label id="activeSlide"></label>
-                    
-
-                </div>
-            </div>
-
-        </div>
-
-
-        <button id="saveSlide">Save</button>
-
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="master" charset="utf-8">
         <link rel="stylesheet" href="style/style.css" type="text/css" media="screen" title="master" charset="utf-8">
         <script src='lib/jquery1.9.1.js'></script>
@@ -31,13 +11,26 @@
         <script src='lib/backbone.js'></script>
         <script src='lib/jquery.inline.js'></script>
 
+        <div class="container-fluid">
+
+            <div class="row">
+                <div id="slidesBar" class="col-md-3 well pre-scrollable"></div>
+
+                <div id="slideContainer" class="col-md-9 well slideContainer">
+                    <div id="activeSlide"></div>
+                </div>
+            </div>
+            <button id="saveSlide">Save</button>
+        </div>
+        
+
         <script id="presViewTemplate" type="text/template">
             <ul>
                 <% _.each(models, function (slide) { %>
-                    <div id="slidesBarTemp">
-                    <li id="slideTitle"><%= slide.get("title") %></li>
-                    <li id="slideHeader"><%= slide.get("header") %></li>
-                    <li id="slideContent"><%= slide.get("content") %></li>
+                    <div id="slidesBarTemp" data-id="<%= slide.cid %>">
+                        <div id="slideTitle"><%= slide.get("title") %></div>
+                        <div id="slideHeader"><%= slide.get("header") %></div>
+                        <p id="slideContent"><%= slide.get("content") %></p>
                     </div>
                 <% }) %>
                 
