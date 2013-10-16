@@ -3,7 +3,7 @@ var ActivePresentationView = Backbone.View.extend({
     template: _.template($("#presViewTemplate").html()),
 
     initialize: function() {
-
+        this.collection.on("change", this.render, this);
     },
 
     render: function() {
@@ -17,11 +17,9 @@ var ActivePresentationView = Backbone.View.extend({
     },
 
     selectedSlideRender: function(e){
-        console.log(e);
+
         var target = $(e.currentTarget);
-        console.log(target);
-        var id     = target.attr('data-id');
-        console.log(id);
+        var id     = target.attr("data-id");
         model      = this.collection.get(id);
 
         var sv = new ActiveSlideView({model:model});
