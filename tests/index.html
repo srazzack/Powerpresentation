@@ -14,15 +14,10 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div id="slidesBar" class="col-md-3 well pre-scrollable"></div>
+                <div id="slidesBar" class="col-md-3 well pre-scrollable "></div>
 
                 <div id="slideContainer" class="col-md-6 well slideContainer">
                     <div id="activeSlide"></div>
-                </div>
-                <div id="editContainer" class="col-md-3 well slideContainer">
-                    <button id="saveSlide">Save</button>
-                    <button id="deleteSlide">Delete</button>
-
                 </div>
             </div>
             
@@ -30,6 +25,19 @@
         
 
         <script id="presViewTemplate" type="text/template">
+            
+            <div id="controls" style="align: center">
+
+                <button id="deleteSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+                <button id="saveSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon .glyphicon-floppy-disk"></span>
+                </button>
+                <button id="addSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div> 
             <ul>
                 <% _.each(models, function (slide) { %>
                     <div id="slidesBarTemp" data-id="<%= slide.cid %>">
@@ -40,6 +48,7 @@
                 <% }) %>
                 
             </ul>
+            
         </script>
 
         <script id="slideTemplate" type="text/template">
