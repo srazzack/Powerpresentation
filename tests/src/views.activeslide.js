@@ -1,6 +1,5 @@
 var ActiveSlideView = Backbone.View.extend({
     el: "#slideContainer",
-    className: "slideContainer",
     template: _.template( $("#slideTemplate").html() ),
 
 
@@ -30,12 +29,24 @@ var ActiveSlideView = Backbone.View.extend({
     },
 
     events: {
-        "click #saveSlide": "saveSlide"
+        "click #saveSlide": "saveSlide",
     },
 
     saveSlide: function (e) {
         console.log(this.model.save());
         this.model.save();
+    },
+
+    slideStyling: function () {
+        $("#fs").change(function() {
+
+        $('.changeMe').css("font-family", $(this).val());
+
+        });
+
+        $("#size").change(function() {
+        $('.changeMe').css("font-size", $(this).val() + "px");
+        });
     }
 
 });

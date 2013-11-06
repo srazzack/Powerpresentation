@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>S Note</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" type="text/css" media="screen" title="master" charset="utf-8">
+    <link rel="stylesheet" href="style/style.css" type="text/css" media="screen" title="master" charset="utf-8">
+    <script src='lib/jquery1.9.1.js'></script>
+    <script src='lib/underscore.js'></script>
+    <script src='lib/backbone.js'></script>
+    <script src='lib/jquery.inline.js'></script>
+
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      .center{
+      margin:auto;
+      width:70%;
+   vertical-align: middle;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    <link href="lib/bootstrap/dist/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="lib/bootstrap/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="lib/bootstrap/assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="lib/bootstrap/assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="lib/bootstrap/assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="lib/bootstrap/assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#"></a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+            <div class="row">
+                <div id="slidesBar" class="col-md-3 well"></div>
+
+                <div id="slideContainer" class="col-md-6 well">
+                    <div id="activeSlide"></div>
+                </div>
+            </div>
+            
+        </div>
+        
+
+        <script id="presViewTemplate" type="text/template">
+            
+            <div id="controls" class="center">
+
+                <button id="deleteSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+                <button id="saveSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </button>
+                <button id="addSlide" type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div> 
+            <hr>
+              <div class="pre-scrollable">
+                <% _.each(models, function (slide) { %>
+                  <div class="row">
+                    <div id="slidesBarTemp" class="col-md-3" data-id="<%= slide.cid %>">
+                        <div id="slideTitle"><%= slide.get("title") %></div>
+                        <div id="slideHeader"><%= slide.get("header") %></div>
+                        <p id="slideContent"><%= slide.get("content") %></p>
+                    </div>
+                    <div class="col-md-1">
+                        <button id="slideUp" type="button" class="btn btn-default btn-sm" data-id="<%= slide.cid %>">
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </button>
+                        <button id="slideDown" type="button" class="btn btn-default btn-sm" data-id="<%= slide.cid %>">
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>
+                    </div>
+                  </div>
+                <% }) %>
+            
+            
+            
+        </script>
+
+        <script id="slideTemplate" class="center" type="text/template">
+            <ul>
+                <li id="slideTitle"><%= title %></li>
+                <li id="slideHeader"><%= header %></li>
+                <li id="slideContent"><%= content %></li>
+            </ul>
+        </script>
+        <script type="text/javascript" src="src/models.slide.js"></script>
+        <script type="text/javascript" src="src/collections.slides.js"></script>
+        <script type="text/javascript" src="src/models.presentation.js"></script>
+        <script type="text/javascript" src="src/collections.presentations.js"></script>
+        <script type="text/javascript" src="src/models.theme.js"></script>
+        <script type="text/javascript" src="src/collections.themes.js"></script>
+        <script type="text/javascript" src="src/views.activepresentation.js"></script>
+        <script type="text/javascript" src="src/views.activeslide.js"></script>
+        <script type="text/javascript" src="src/app.js"></script>
+
+      <hr>
+
+      <footer>
+
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <script src="lib/bootstrap/assets/js/jquery.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-transition.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-alert.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-modal.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-popover.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-button.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-collapse.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-carousel.js"></script>
+    <script src="lib/bootstrap/assets/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>

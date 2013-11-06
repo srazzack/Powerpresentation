@@ -11,12 +11,18 @@ var Slide = Backbone.Model.extend({
 
 		this.validate();
 
+		this.id = _.uniqueId('slide_');
+
+
 		this.on("change:title", function(model){
 			console.log('title changed to: ' + model.get("title"));
 		});
 		this.on("change:header", function(model){
 			console.log("A header has been added, updated or deleted");
 		});
+		this.on("destroy", function(){
+			console.log("destroying", arguments);
+		}); 
 	},
 	validate: function (){
 		if(this.get("title").length < 3) {

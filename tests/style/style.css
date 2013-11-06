@@ -1,22 +1,40 @@
-#slideContainer {
-    outline: 2px solid #aaa;
+.activeSlide {
+    outline: 1px solid #aaa;
     width: 350px;
     height: 350px;
+    min-height: 275px!important;
     background-color: #fff;
-
     margin: 5px;
     margin-right: 450px;
 }
 
-#slidesBarTemp {
+.row .col {
+    width: auto;
+    height: auto;
+}
+
+.slide {
     outline: 2px solid #aaa;
     width: 200px;
     height: 200px;
+    min-height: 100px!important;
     background-color: #fff;
-
+    float: right;
     margin: 5px;
     font-size: 55%;
 }
+.slideText {
+    text-indent:5px;
+    word-wrap: break-word
+}
+
+.slideTitles{
+    font-size: 225%;
+}
+.slideHeaders{
+    font-size: 150%;
+}
+
 
 #slideContainer img {
 
