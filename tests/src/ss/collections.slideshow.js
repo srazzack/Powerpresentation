@@ -1,1 +1,0 @@
-var SlideshowCollection = Backbone.Collection.extend({ model: Slideshow });
