@@ -4,7 +4,7 @@ var ActivePresentationView = Backbone.View.extend({
         t1: _.template($("#presViewTemplate").html()),
         t2: _.template($("#presViewTemplate").html())
     },
-
+    selectedSlide: "",
     initialize: function() {
         this.collection.on("change", this.render, this);
         this.collection.on("add", this.render, this);
@@ -42,7 +42,6 @@ var ActivePresentationView = Backbone.View.extend({
         "click #addSlide": "addSlide",
         "click .slide": "selectedSlideRender",
         "click #deleteSlide": "deleteSlide",
-        "click #removeSlide": "deleteSlide",
         "click #slideUp": "moveUp",
         "click #slideDown": "moveDown",
         "dblclick .fullscreen": "launchFullScreen"
@@ -51,56 +50,43 @@ var ActivePresentationView = Backbone.View.extend({
     keypressHandler: function(e) {
         console.log(e.keyCode);
         if(e.keyCode === 46 || e.keyCode === 189) {
-            this.collection.remove(this.collection.at(this.collection.models.length-1));
-            console.log(this.collection.models.length);
+            this.deleteSlide();
         }
         else if(e.keyCode === 187) {
             console.log("here");
             var slide = {title:"please add a title here", header: "please add a header to your slide here", content: "please add some content here"};
             this.collection.add(slide);
-            console.log(this.collection);
         }
     },
 
     moveUp: function(e){
-        var target = $(e.currentTarget);
-        var id     = target.attr("data-id");
-        model      = this.collection.get(id);
-        this.collection.moveUp(model);
+        this.collection.moveUp(this.selectedSlide);
     },
 
     moveDown: function(e){
-        var target = $(e.currentTarget);
-        var id     = target.attr("data-id");
-        model      = this.collection.get(id);
-        this.collection.moveDown(model);
+        this.collection.moveDown(this.selectedSlide);
     },
 
     selectedSlideRender: function(e){
         var target = $(e.currentTarget);
         var id     = target.attr("data-id");
-        model      = this.collection.get(id);
+        var model      = this.collection.get(id);
         var sv = new ActiveSlideView({model:model});
         sv.render();
+
+        this.selectedSlide = model;
     },
 
     deleteSlide: function(e) {
-       /* console.log(e);
-        var target              = $(e.currentTarget);
-        var id                  = target.attr("data-id");
-        var selectedSlide       = this.collection.get(id);
-        console.log(selectedSlide);
 
-       if(!selectedSlide){*/
+       if(!this.selectedSlide){
             this.collection.remove(this.collection.at(this.collection.models.length-1));
-            //this.collection.at(this.collection.models.length-1).destroy();
             console.log(this.collection.models.length);
-       /*}
-       else if (selectedSlide){
-             this.collection.remove(selectedSlide);
-             selectedSlide.destroy();
+       }
+       else if (this.selectedSlide){
+             this.collection.remove(this.selectedSlide);
              console.log(this.collection.models.length);
-       }*/
+       }
     },
 
     addSlide: function() {

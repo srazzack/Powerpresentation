@@ -16,6 +16,8 @@ sc.add(slides);
 var pv = new ActivePresentationView({collection: sc});
 pv.render();
 
+//var ssv = new SlideshowView({collection: sc});
+
 /*
 var startSlideshow = new SlideshowView({
 	collection: sc
