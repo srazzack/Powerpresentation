@@ -133,18 +133,21 @@
                   <div class="row-fluid">
                   <hr>
                   
-                    <ul id="slide:<%= slide.cid %>" class="slide col-md-3" data-id="<%= slide.cid %>">
+                    <box id="slide:<%= slide.cid %>" class="slide col-md-3" data-id="<%= slide.cid %>">
                         <li id="slideTitle" class="slideTitles"><%= slide.cid %>:<%= slide.get("title") %></li>
                         <li id="slideHeader" class="slideHeaders"><%= slide.get("header") %></li>
                         <p id="slideContent" class="slideBullets"><%= slide.get("content") %></p>
-                    </ul>
+                    </box>
                     
-                    <div class="col-md-1">
+                    <div >
                         <button id="slideUp" type="button" class="btn btn-default btn-sm" data-id="<%= slide.cid %>">
                             <span class="glyphicon glyphicon-arrow-up"></span>
                         </button>
                         <button id="slideDown" type="button" class="btn btn-default btn-sm" data-id="<%= slide.cid %>">
                             <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>
+                        <button id="deleteTargetSlide" type="button" class="btn btn-default btn-sm" data-id="<%= slide.cid %>">
+                          <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </div>
                 <% }) %>

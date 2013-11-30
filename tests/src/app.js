@@ -1,4 +1,6 @@
 
+
+/*
 var slide1 = new Slide({"title": "This is the first title to renssacder"});
 
 
@@ -15,6 +17,7 @@ var sc = new SlidesCollection();
 sc.add(slides);
 var pv = new ActivePresentationView({collection: sc});
 pv.render();
+*/
 
 //var ssv = new SlideshowView({collection: sc});
 

@@ -4,7 +4,9 @@ var ActivePresentationView = Backbone.View.extend({
         t1: _.template($("#presViewTemplate").html()),
         t2: _.template($("#presViewTemplate").html())
     },
-    selectedSlide: "",
+
+    selectedSlide: null,
+
     initialize: function() {
         this.collection.on("change", this.render, this);
         this.collection.on("add", this.render, this);
@@ -39,9 +41,10 @@ var ActivePresentationView = Backbone.View.extend({
 
     events: {
         "click #savePresentation": "savePresentation",
-        "click #addSlide": "addSlide",
+        "click #addSlide": "addDefaultSlide",
         "click .slide": "selectedSlideRender",
-        "click #deleteSlide": "deleteSlide",
+        "click #deleteSlide": "deleteSelectedSlide",
+        "click #deleteTargetSlide": "deleteTargetSlide",
         "click #slideUp": "moveUp",
         "click #slideDown": "moveDown",
         "dblclick .fullscreen": "launchFullScreen"
@@ -50,46 +53,49 @@ var ActivePresentationView = Backbone.View.extend({
     keypressHandler: function(e) {
         console.log(e.keyCode);
         if(e.keyCode === 46 || e.keyCode === 189) {
-            this.deleteSlide();
+            this.deleteSelectedSlide();
         }
         else if(e.keyCode === 187) {
-            console.log("here");
-            var slide = {title:"please add a title here", header: "please add a header to your slide here", content: "please add some content here"};
-            this.collection.add(slide);
+            this.addDefaultSlide();
         }
+    },
+
+    getSlide: function(e){
+        return this.collection.get($(e.currentTarget).attr("data-id"));
     },
 
     moveUp: function(e){
-        this.collection.moveUp(this.selectedSlide);
+        this.collection.moveUp(this.getSlide(e));
     },
 
     moveDown: function(e){
-        this.collection.moveDown(this.selectedSlide);
+        this.collection.moveDown(this.getSlide(e));
     },
 
     selectedSlideRender: function(e){
-        var target = $(e.currentTarget);
-        var id     = target.attr("data-id");
-        var model      = this.collection.get(id);
-        var sv = new ActiveSlideView({model:model});
+        var sv = new ActiveSlideView({model:this.getSlide(e)});
         sv.render();
-
-        this.selectedSlide = model;
+        this.selectedSlide = this.getSlide(e);
     },
 
-    deleteSlide: function(e) {
+    deleteTargetSlide: function(e){
+        this.collection.remove(this.getSlide(e));
+    },
 
-       if(!this.selectedSlide){
+    deleteSelectedSlide: function(e) {
+        var selected = this.selectedSlide;
+        
+        if(selected){
+            this.collection.remove(selected);
+            console.log(this.collection.models.length);
+        }
+        else {
             this.collection.remove(this.collection.at(this.collection.models.length-1));
             console.log(this.collection.models.length);
-       }
-       else if (this.selectedSlide){
-             this.collection.remove(this.selectedSlide);
-             console.log(this.collection.models.length);
-       }
+        }
     },
 
-    addSlide: function() {
+    addDefaultSlide: function() {
         console.log("here");
         var slide = {title:"please add a title here", header: "please add a header to your slide here", content: "please add some content here"};
         this.collection.add(slide);
